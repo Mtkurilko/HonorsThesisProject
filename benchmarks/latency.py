@@ -9,7 +9,7 @@ def measure_latency(operation, iterations=1000):
         operation()
         end = time.perf_counter()
 
-        times.append(end - start)
+        times.append((end - start)*1000) # Change to miliseconds
 
     return {
         "times": times,
