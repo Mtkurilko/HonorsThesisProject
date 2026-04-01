@@ -1,11 +1,11 @@
 import os
 from cryptography.hazmat.primitives import serialization
 
-from . import rsa, kyber, ecc
+from . import rsa, kyber, ecc, hybrid
 
 
 class kex_module:
-    SUPPORTED = {"RSA", "ECC", "KYBER"}
+    SUPPORTED = {"RSA", "ECC", "KYBER", "HYBRID"}
 
     def __init__(self, algorithm: str):
         normalized = algorithm.strip().upper()
@@ -29,6 +29,9 @@ class kex_module:
         return self.algorithm
 
     def generate_keys(self):
+        if self.algorithm == "HYBRID":
+            return hybrid.generate_keys()
+
         if self.algorithm == "KYBER":
             return kyber.generate_keys()
 
@@ -48,6 +51,9 @@ class kex_module:
         return public_bytes, private_key
 
     def encapsulate(self, public_key):
+        if self.algorithm == "HYBRID":
+            return hybrid.encapsulate(public_key)
+
         if self.algorithm == "KYBER":
             return kyber.encapsulate(public_key)
 
@@ -67,6 +73,9 @@ class kex_module:
         return ephemeral_public_bytes, shared_secret
 
     def decapsulate(self, private_key, ciphertext):
+        if self.algorithm == "HYBRID":
+            return hybrid.decapsulate(private_key, ciphertext)
+
         if self.algorithm == "KYBER":
             return kyber.decapsulate(private_key, ciphertext)
 

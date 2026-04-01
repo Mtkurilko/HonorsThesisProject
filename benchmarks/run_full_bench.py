@@ -4,7 +4,7 @@ from run_signature_bench import run_signature_bench
 import csv
 
 # Prompt for values
-runs : int = int(input("How many runs do you wnat to do?: "))
+runs : int = int(input("How many runs do you want to do?: "))
 message = b"message"
 
 # Run the benches
@@ -17,8 +17,8 @@ csv_data_raw = [
     ["RSA", ";".join(map(str, kex_bench_data["RSA"]["cpu_ms_raw"])), ";".join(map(str, kex_bench_data["RSA"]["latency_ms_raw"])), ";".join(map(str, kex_bench_data["RSA"]["tx_bytes_raw"])), "N/A", "N/A", "N/A"],
     ["ECDH", ";".join(map(str, kex_bench_data["ECC"]["cpu_ms_raw"])), ";".join(map(str, kex_bench_data["ECC"]["latency_ms_raw"])), ";".join(map(str, kex_bench_data["ECC"]["tx_bytes_raw"])), "N/A", "N/A", "N/A"],
     ["ML-KEM (KYBER)", ";".join(map(str, kex_bench_data["KYBER"]["cpu_ms_raw"])), ";".join(map(str, kex_bench_data["KYBER"]["latency_ms_raw"])), ";".join(map(str, kex_bench_data["KYBER"]["tx_bytes_raw"])), "N/A", "N/A", "N/A"],
-    ["ECDSA", "N/A", "N/A", "N/A", ";".join(map(str, sig_bench_data["RAW ECDSA SIGN"]["times"])), ";".join(map(str, sig_bench_data["RAW ECDSA VERIFY"]["times"])), ";".join(map(str, sig_bench_data["RAW ECDSA SIZE"]["times"]))],
-    ["ML-DSA (Dilithium)", "N/A", "N/A", "N/A", ";".join(map(str, sig_bench_data["RAW ML-DSA SIGN"]["times"])), ";".join(map(str, sig_bench_data["RAW ML-DSA VERIFY"]["times"])), ";".join(map(str, sig_bench_data["RAW ML-DSA SIZE"]["times"]))],
+    ["ECDSA", "N/A", "N/A", "N/A", ";".join(map(str, sig_bench_data["RAW ECDSA SIGN"]["times"])), ";".join(map(str, sig_bench_data["RAW ECDSA VERIFY"]["times"])), ";".join(map(str, sig_bench_data["RAW ECDSA SIZE"]))],
+    ["ML-DSA (Dilithium)", "N/A", "N/A", "N/A", ";".join(map(str, sig_bench_data["RAW ML-DSA SIGN"]["times"])), ";".join(map(str, sig_bench_data["RAW ML-DSA VERIFY"]["times"])), ";".join(map(str, sig_bench_data["RAW ML-DSA SIZE"]))],
 ]
 
 with open("results/raw_data.csv", "w", newline="") as f:

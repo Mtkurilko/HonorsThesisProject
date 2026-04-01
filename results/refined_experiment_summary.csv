@@ -1,0 +1,73 @@
+Experiment,Algorithm,Metric,Value
+key_exchange,RSA,cpu_ms_mean,32.51300000000157
+key_exchange,RSA,latency_ms_mean,48.658062471076846
+key_exchange,RSA,tx_bytes_mean,707.0
+key_exchange,ECDH,cpu_ms_mean,0.213999999992609
+key_exchange,ECDH,latency_ms_mean,0.1906250254251063
+key_exchange,ECDH,tx_bytes_mean,356.0
+key_exchange,ML-KEM (KYBER),cpu_ms_mean,0.05550000000198452
+key_exchange,ML-KEM (KYBER),latency_ms_mean,0.04681252175942063
+key_exchange,ML-KEM (KYBER),tx_bytes_mean,1568.0
+key_exchange,HYBRID (ECC+KYBER),cpu_ms_mean,0.2610000000018431
+key_exchange,HYBRID (ECC+KYBER),latency_ms_mean,0.2430000458844006
+key_exchange,HYBRID (ECC+KYBER),tx_bytes_mean,1940.0
+signatures,ECDSA,sign_ms_mean,0.03133347490802407
+signatures,ECDSA,verify_ms_mean,0.06256252527236938
+signatures,ECDSA,signature_size_bytes_mean,71
+signatures,ML-DSA (Dilithium),sign_ms_mean,0.0947709777392447
+signatures,ML-DSA (Dilithium),verify_ms_mean,0.0013334793038666248
+signatures,ML-DSA (Dilithium),signature_size_bytes_mean,2420
+messaging,RSA,session_latency_ms_mean,48.57154202181846
+messaging,RSA,message_latency_ms_mean,0.04742533928947523
+messaging,RSA,handshake_latency_ms_mean,18.790583009831607
+messaging,RSA,messages_per_sec,17243.893951633552
+messaging,RSA,reuse_ratio,0.5
+messaging,RSA,memory_peak_bytes,76697
+messaging,ECC,session_latency_ms_mean,47.93587501626462
+messaging,ECC,message_latency_ms_mean,0.04687481524888426
+messaging,ECC,handshake_latency_ms_mean,0.2877080114558339
+messaging,ECC,messages_per_sec,20790.66914634356
+messaging,ECC,reuse_ratio,0.5
+messaging,ECC,memory_peak_bytes,76537
+messaging,KYBER,session_latency_ms_mean,47.243625042028725
+messaging,KYBER,message_latency_ms_mean,0.046199402306228876
+messaging,KYBER,handshake_latency_ms_mean,0.08916598744690418
+messaging,KYBER,messages_per_sec,21137.02213505867
+messaging,KYBER,reuse_ratio,0.5
+messaging,KYBER,memory_peak_bytes,76537
+messaging,HYBRID,session_latency_ms_mean,48.297166475094855
+messaging,HYBRID,message_latency_ms_mean,0.047231509641278535
+messaging,HYBRID,handshake_latency_ms_mean,0.4271250218153
+messaging,HYBRID,messages_per_sec,20605.094365082416
+messaging,HYBRID,reuse_ratio,0.5
+messaging,HYBRID,memory_peak_bytes,76537
+file_transfer,RSA,transfer_latency_ms_mean,953.6305834772065
+file_transfer,RSA,throughput_mbps_mean,43.982946221750794
+file_transfer,RSA,chunk_latency_ms_mean,2.9225630418295623
+file_transfer,RSA,handshake_latency_ms_mean,36.73441696446389
+file_transfer,RSA,tx_bytes_mean,353.5
+file_transfer,RSA,memory_peak_bytes,128097
+file_transfer,ECC,transfer_latency_ms_mean,951.8460629624315
+file_transfer,ECC,throughput_mbps_mean,44.06591130200343
+file_transfer,ECC,chunk_latency_ms_mean,2.9173226595958113
+file_transfer,ECC,handshake_latency_ms_mean,0.3155829617753625
+file_transfer,ECC,tx_bytes_mean,178
+file_transfer,ECC,memory_peak_bytes,128017
+file_transfer,KYBER,transfer_latency_ms_mean,965.1030829991214
+file_transfer,KYBER,throughput_mbps_mean,43.45981670010259
+file_transfer,KYBER,chunk_latency_ms_mean,2.9586362612462835
+file_transfer,KYBER,handshake_latency_ms_mean,0.09324995335191488
+file_transfer,KYBER,tx_bytes_mean,784
+file_transfer,KYBER,memory_peak_bytes,127993
+file_transfer,HYBRID,transfer_latency_ms_mean,952.8269795118831
+file_transfer,HYBRID,throughput_mbps_mean,44.01986049590772
+file_transfer,HYBRID,chunk_latency_ms_mean,2.920841999548429
+file_transfer,HYBRID,handshake_latency_ms_mean,0.42516703251749277
+file_transfer,HYBRID,tx_bytes_mean,970
+file_transfer,HYBRID,memory_peak_bytes,127993
+hybrid_overhead,ECC,handshake_latency_ms_mean,0.271228956989944
+hybrid_overhead,ECC,tx_bytes_mean,356
+hybrid_overhead,KYBER,handshake_latency_ms_mean,0.05429144948720932
+hybrid_overhead,KYBER,tx_bytes_mean,1568
+hybrid_overhead,HYBRID,handshake_latency_ms_mean,0.2531245118007064
+hybrid_overhead,HYBRID,tx_bytes_mean,1940

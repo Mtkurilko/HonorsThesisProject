@@ -1,0 +1,134 @@
+\documentclass[12pt,twocolumn]{article}
+
+% page layout
+\usepackage[margin=0.75in]{geometry}
+\usepackage{setspace}
+\setstretch{1.05}
+\setlength{\columnsep}{0.5in}
+
+% font
+\usepackage{mathptmx} % tnr serif font
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% Hyperlinks must be loaded first
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+
+% Graphics and figure positioning
+\usepackage{graphicx}
+\usepackage{float}
+\floatplacement{figure}{H}
+\usepackage{caption}
+
+% language
+\usepackage[english]{babel}
+
+% better typography
+\usepackage{microtype}
+
+% better table
+\usepackage{booktabs}
+
+% math
+\usepackage{amsmath}
+
+% bibliography
+\usepackage{natbib}
+\bibliographystyle{plainnat}
+
+% title page
+\usepackage{titling}
+\pretitle{\begin{center}\LARGE\bfseries}
+\posttitle{\par\end{center}\vskip 1em}
+\preauthor{\begin{center}\large}
+\postauthor{\end{center}}
+\predate{\begin{center}\large}
+\postdate{\end{center}}
+
+% indent patch
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\@afterheading}{\@nobreaktrue}{}{}{}
+\makeatother
+
+% abstract
+\usepackage{abstract}
+\renewcommand{\abstractnamefont}{\normalfont\bfseries}
+\renewcommand{\abstracttextfont}{\normalfont}
+
+% section formatting
+\usepackage{titlesec}
+\titleformat{\section}[block]{\large\bfseries}{\thesection.}{0.5em}{}
+
+\titleformat{\subsection}[block]{\normalsize\bfseries}{\thesubsection.}{0.5em}{}
+
+
+\titleformat{\paragraph}
+  [block]
+  {\normalsize\bfseries}
+  {}
+  {0pt}
+  {}
+  []
+
+\titlespacing*{\section}{0pt}{1.0ex plus .2ex}{0.5ex plus .2ex} % <-- Reduced spacing
+\titleformat{\subsection}[block]{\normalsize\bfseries}{\thesubsection.}{0.5em}{}
+\titlespacing*{\paragraph} {0pt} {1em} {0em}
+
+% paragraph formatting
+\setlength{\parskip}{0.5ex plus 0.2ex minus 0.1ex}
+\setlength{\parindent}{1.5em}
+
+% \makeatletter
+% \renewcommand\section{\@startsection {section}{1}{\z@}%
+%   {-3.5ex \@plus -1ex \@minus -.2ex}%
+%   {1ex \@plus.2ex}%
+%   {\normalfont\large\bfseries}}
+% \renewcommand\subsection{\@startsection {subsection}{2}{\z@}%
+%   {-3.25ex\@plus -1ex \@minus -.2ex}%
+%   {0.75ex \@plus .2ex}%
+%   {\normalfont\normalsize\bfseries}}
+% \renewcommand\subsubsection{\@startsection {subsubsection}{3}{\z@}%
+%   {-3.25ex\@plus -1ex \@minus -.2ex}%
+%   {0.75ex \@plus .2ex}%
+%   {\normalfont\normalsize\bfseries}}
+% \makeatother
+
+
+% define \tightlist command used by pandoc
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+%Define pandoc bounded
+\providecommand{\pandocbounded}[1]{#1}
+
+% document starts here
+\begin{document}
+
+% title page
+\begin{titlepage}
+    \centering
+    \vspace*{4cm}
+    {\LARGE \bfseries $title$ \par}
+    \vspace{2cm}
+    {\large $author$ \par}
+    \vspace{1cm}
+    {\large $date$ \par}
+    \vfill
+\end{titlepage}
+
+% abstract
+$if(abstract)$
+\begin{abstract}
+$abstract$
+\end{abstract}
+$endif$
+
+% main content
+$body$
+
+% bibliography
+\bibliography{references}
+
+\end{document}
+

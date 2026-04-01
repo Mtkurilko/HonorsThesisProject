@@ -14,25 +14,24 @@ from workloads.tls_handshake_sim import simulate_handshake
 ITERATIONS = 1000
 DEF_MESSAGE = b"message"
 
-def run_key_exchange_bench(iter=ITERATIONS, message=DEF_MESSAGE):
-    cpu_times = {
-        "RSA": [],
-        "ECC": [],
-        "KYBER": [],
-    }
-    latency_data = {
-        "RSA": {},
-        "ECC": {},
-        "KYBER": {},
-    }
-    key_sizes = {
-        "RSA": [],
-        "ECC": [],
-        "KYBER": [],
-    }
+ALGORITHM_LABELS = {
+    "RSA": "RSA",
+    "ECC": "ECDH",
+    "KYBER": "ML-KEM (KYBER)",
+    "HYBRID": "HYBRID (ECC+KYBER)",
+}
+
+def run_key_exchange_bench(iter=ITERATIONS, message=DEF_MESSAGE, include_hybrid=False):
+    algorithms = ["RSA", "ECC", "KYBER"]
+    if include_hybrid:
+        algorithms.append("HYBRID")
+
+    cpu_times = {algorithm: [] for algorithm in algorithms}
+    latency_data = {algorithm: {} for algorithm in algorithms}
+    key_sizes = {algorithm: [] for algorithm in algorithms}
 
     # ----- Benchmark -----
-    for module in [kex_module("RSA"), kex_module("ECC"), kex_module("KYBER")]:
+    for module in [kex_module(algorithm) for algorithm in algorithms]:
         for _ in range(iter):
             # CPU Cycles // (WILL USE time.process_time() and report CPU time in ms)
             start_cpu = time.process_time()
@@ -46,52 +45,52 @@ def run_key_exchange_bench(iter=ITERATIONS, message=DEF_MESSAGE):
         
         # Handshake Latency
         latency_data[module.getName()] = latency.measure_latency(lambda: simulate_handshake(module), iter)
-    
+
     return {
-        "RSA": {
-            "cpu_ms_raw": cpu_times["RSA"],
-            "latency_ms_raw": latency_data["RSA"]["times"],
-            "tx_bytes_raw": key_sizes["RSA"],
-            "cpu_ms": sum(cpu_times["RSA"]) / iter,
-            "latency_ms": latency_data["RSA"]["mean"],
-            "tx_bytes": sum(key_sizes["RSA"]) / iter,
-        },
-        "ECC": {
-            "cpu_ms_raw": cpu_times["ECC"],
-            "latency_ms_raw": latency_data["ECC"]["times"],
-            "tx_bytes_raw": key_sizes["ECC"],
-            "cpu_ms": sum(cpu_times["ECC"]) / iter,
-            "latency_ms": latency_data["ECC"]["mean"],
-            "tx_bytes": sum(key_sizes["ECC"]) / iter,
-        },
-        "KYBER": {
-            "cpu_ms_raw": cpu_times["KYBER"],
-            "latency_ms_raw": latency_data["KYBER"]["times"],
-            "tx_bytes_raw": key_sizes["KYBER"],
-            "cpu_ms": sum(cpu_times["KYBER"]) / iter,
-            "latency_ms": latency_data["KYBER"]["mean"],
-            "tx_bytes": sum(key_sizes["KYBER"]) / iter,
-        },
+        algorithm: {
+            "cpu_ms_raw": cpu_times[algorithm],
+            "latency_ms_raw": latency_data[algorithm]["times"],
+            "tx_bytes_raw": key_sizes[algorithm],
+            "cpu_ms": sum(cpu_times[algorithm]) / iter,
+            "latency_ms": latency_data[algorithm]["mean"],
+            "tx_bytes": sum(key_sizes[algorithm]) / iter,
+        }
+        for algorithm in algorithms
     }
+
+
+def _build_csv_rows(bench_data, include_raw=False):
+    rows = [["Algorithm", "CPU_ms", "Latency_ms", "Transmission_bytes"]]
+
+    for algorithm in bench_data.keys():
+        label = ALGORITHM_LABELS.get(algorithm, algorithm)
+        if include_raw:
+            rows.append(
+                [
+                    label,
+                    ";".join(map(str, bench_data[algorithm]["cpu_ms_raw"])),
+                    ";".join(map(str, bench_data[algorithm]["latency_ms_raw"])),
+                    ";".join(map(str, bench_data[algorithm]["tx_bytes_raw"])),
+                ]
+            )
+        else:
+            rows.append(
+                [
+                    label,
+                    bench_data[algorithm]["cpu_ms"],
+                    bench_data[algorithm]["latency_ms"],
+                    bench_data[algorithm]["tx_bytes"],
+                ]
+            )
+
+    return rows
 
 
 # Export Data
 if __name__ == "__main__": # Only export raw if ran as main
-    bench_data = run_key_exchange_bench()
-    
-    csv_data = [
-        ["Algorithm", "CPU_ms", "Latency_ms", "Transmission_bytes"],
-        ["RSA", bench_data["RSA"]["cpu_ms"], bench_data["RSA"]["latency_ms"], bench_data["RSA"]["tx_bytes"]],
-        ["ECDH", bench_data["ECC"]["cpu_ms"], bench_data["ECC"]["latency_ms"], bench_data["ECC"]["tx_bytes"]],
-        ["ML-KEM (KYBER)", bench_data["KYBER"]["cpu_ms"], bench_data["KYBER"]["latency_ms"], bench_data["KYBER"]["tx_bytes"]],
-    ]
-
-    csv_data_raw = [
-        ["Algorithm", "CPU_ms", "Latency_ms", "Transmission_bytes"],
-        ["RSA", ";".join(map(str, bench_data["RSA"]["cpu_ms_raw"])), ";".join(map(str, bench_data["RSA"]["latency_ms_raw"])), ";".join(map(str, bench_data["RSA"]["tx_bytes_raw"]))],
-        ["ECDH", ";".join(map(str, bench_data["ECC"]["cpu_ms_raw"])), ";".join(map(str, bench_data["ECC"]["latency_ms_raw"])), ";".join(map(str, bench_data["ECC"]["tx_bytes_raw"]))],
-        ["ML-KEM (KYBER)", ";".join(map(str, bench_data["KYBER"]["cpu_ms_raw"])), ";".join(map(str, bench_data["KYBER"]["latency_ms_raw"])), ";".join(map(str, bench_data["KYBER"]["tx_bytes_raw"]))],
-    ]
+    bench_data = run_key_exchange_bench(include_hybrid=True)
+    csv_data = _build_csv_rows(bench_data, include_raw=False)
+    csv_data_raw = _build_csv_rows(bench_data, include_raw=True)
 
     with open("results/raw_data.csv", "w", newline="") as f:
         writer = csv.writer(f)
@@ -105,13 +104,7 @@ if __name__ == "__main__": # Only export raw if ran as main
 
 else:
     bench_data = run_key_exchange_bench()
-    
-    csv_data = [
-        ["Algorithm", "CPU_ms", "Latency_ms", "Transmission_bytes"],
-        ["RSA", bench_data["RSA"]["cpu_ms"], bench_data["RSA"]["latency_ms"], bench_data["RSA"]["tx_bytes"]],
-        ["ECDH", bench_data["ECC"]["cpu_ms"], bench_data["ECC"]["latency_ms"], bench_data["ECC"]["tx_bytes"]],
-        ["ML-KEM (KYBER)", bench_data["KYBER"]["cpu_ms"], bench_data["KYBER"]["latency_ms"], bench_data["KYBER"]["tx_bytes"]],
-    ]
+    csv_data = _build_csv_rows(bench_data, include_raw=False)
 
     with open("results/key_exchange_benchmark.csv", "w", newline="") as f:
         writer = csv.writer(f)
