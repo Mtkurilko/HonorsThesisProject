@@ -205,23 +205,23 @@ These are the two asymmetric operations that most directly affect migration risk
 
 The strongest comparison figures produced in this work are:
 
-- `key_exchange_tradeoff` (latency vs transmission size)
-- `signature_comparison` (sign, verify, size)
 - `messaging_system_view` (throughput and latency components)
 - `file_transfer_comparison` (throughput and setup cost)
+- `key_exchange_tradeoff` (latency vs transmission size)
 - `hybrid_overhead` (hybrid-specific latency and bytes)
+- `signature_comparison` (sign, verify, size)
 
 These figures were selected because they show not only which primitive is faster, but *where* each design imposes cost.
 
-![Key Exchange Tradeoff: Latency vs Transmission Size](images/key_exchange_tradeoff.png){width=95%}
+![Messaging System View: Throughput and Latency Components](images/messaging_system_view.png){width=100%}
 
-![Signature Comparison: Sign/Verify Latency and Signature Size](images/signature_comparison.png){width=95%}
+![File Transfer Comparison: Throughput and Handshake Setup Cost](images/file_transfer_comparison.png){width=100%}
 
-![Messaging System View: Throughput and Latency Components](images/messaging_system_view.png){width=95%}
+![Key Exchange Tradeoff: Latency vs Transmission Size](images/key_exchange_tradeoff.png){width=100%}
 
-![File Transfer Comparison: Throughput and Handshake Setup Cost](images/file_transfer_comparison.png){width=95%}
+![Hybrid Overhead: Handshake Latency and Transmission Bytes](images/hybrid_overhead.png){width=100%}
 
-![Hybrid Overhead: Handshake Latency and Transmission Bytes](images/hybrid_overhead.png){width=95%}
+![Signature Comparison: Sign/Verify Latency and Signature Size](images/signature_comparison.png){width=100%}
 
 ## Comparisons
 

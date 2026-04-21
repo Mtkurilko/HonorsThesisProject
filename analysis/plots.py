@@ -11,14 +11,41 @@ GRAPHS_DIR = RESULTS_DIR / "graphs"
 
 plt.rcParams.update(
 	{
-		"font.size": 14,
-		"axes.titlesize": 18,
-		"axes.labelsize": 15,
-		"xtick.labelsize": 13,
-		"ytick.labelsize": 13,
-		"legend.fontsize": 13,
+		"font.size": 16,
+		"font.weight": "bold",
+		"axes.titlesize": 22,
+		"axes.titleweight": "bold",
+		"axes.labelsize": 19,
+		"axes.labelweight": "bold",
+		"xtick.labelsize": 15,
+		"ytick.labelsize": 15,
+		"legend.fontsize": 15,
+		"figure.titlesize": 22,
+		"figure.titleweight": "bold",
+		"axes.titlepad": 12,
+		"axes.labelpad": 10,
+		"legend.frameon": True,
 	}
 )
+
+
+def _bold_ticklabels(ax):
+	for label in ax.get_xticklabels() + ax.get_yticklabels():
+		label.set_fontweight("bold")
+
+
+def _style_axes(ax):
+	for spine in ax.spines.values():
+		spine.set_linewidth(1.4)
+	ax.tick_params(axis="both", width=1.4, length=5)
+	_bold_ticklabels(ax)
+
+
+def _style_legend(legend):
+	if legend is None:
+		return
+	for text in legend.get_texts():
+		text.set_fontweight("bold")
 
 
 def _load_summary(path=RESULTS_DIR / "refined_experiment_summary.csv"):
@@ -35,14 +62,14 @@ def _metric_table(df, experiment):
 def _save(fig, filename):
 	GRAPHS_DIR.mkdir(parents=True, exist_ok=True)
 	out_path = GRAPHS_DIR / filename
-	fig.tight_layout(pad=1.4, w_pad=1.2, h_pad=1.2)
+	fig.tight_layout(pad=2.0, w_pad=1.8, h_pad=1.8)
 	fig.savefig(out_path, dpi=300, bbox_inches="tight")
 	plt.close(fig)
 
 
 def _save_multi(fig, stem, formats=("png",)):
 	GRAPHS_DIR.mkdir(parents=True, exist_ok=True)
-	fig.tight_layout(pad=1.4, w_pad=1.2, h_pad=1.2)
+	fig.tight_layout(pad=2.0, w_pad=1.8, h_pad=1.8)
 	for fmt in formats:
 		out_path = GRAPHS_DIR / f"{stem}.{fmt}"
 		if fmt in {"pdf", "svg"}:
@@ -56,15 +83,16 @@ def plot_key_exchange_tradeoff(df, formats=("png",)):
 	table = _metric_table(df, "key_exchange").copy()
 	table = table.sort_values("latency_ms_mean")
 
-	fig, axes = plt.subplots(1, 2, figsize=(12, 6.0))
+	fig, axes = plt.subplots(2, 1, figsize=(9.5, 11.5))
 	colors = list(plt.cm.tab10.colors)[: len(table)]
 
 	axes[0].bar(table.index, table["latency_ms_mean"], color=colors)
 	axes[0].set_title("Key Exchange Latency (Lower is Better)")
 	axes[0].set_ylabel("Latency (ms)")
-	axes[0].tick_params(axis="x", rotation=30)
+	axes[0].tick_params(axis="x", rotation=25, labelsize=13)
 	for label in axes[0].get_xticklabels():
 		label.set_ha("right")
+		label.set_fontweight("bold")
 
 	for idx, (alg, row) in enumerate(table.iterrows()):
 		axes[1].scatter(
@@ -78,7 +106,9 @@ def plot_key_exchange_tradeoff(df, formats=("png",)):
 	axes[1].set_xlabel("Transmission Bytes")
 	axes[1].set_ylabel("Latency (ms)")
 	axes[1].set_yscale("log")
-	axes[1].legend(loc="best", frameon=True)
+	_style_legend(axes[1].legend(loc="best", frameon=True, fontsize=13, ncol=1))
+	_style_axes(axes[0])
+	_style_axes(axes[1])
 
 	_save_multi(fig, "key_exchange_tradeoff", formats=formats)
 
@@ -87,28 +117,34 @@ def plot_signature_comparison(df, formats=("png",)):
 	table = _metric_table(df, "signatures")
 	algorithms = list(table.index)
 
-	fig, axes = plt.subplots(1, 3, figsize=(15, 6.0))
+	fig, axes = plt.subplots(3, 1, figsize=(9.5, 16.0), sharex=True)
 
 	axes[0].bar(algorithms, table["sign_ms_mean"], color="#4e79a7")
 	axes[0].set_title("Signature Generation Latency")
 	axes[0].set_ylabel("ms")
-	axes[0].tick_params(axis="x", rotation=30)
+	axes[0].tick_params(axis="x", rotation=25, labelsize=13)
 	for label in axes[0].get_xticklabels():
 		label.set_ha("right")
+		label.set_fontweight("bold")
 
 	axes[1].bar(algorithms, table["verify_ms_mean"], color="#59a14f")
 	axes[1].set_title("Signature Verification Latency")
 	axes[1].set_ylabel("ms")
-	axes[1].tick_params(axis="x", rotation=30)
+	axes[1].tick_params(axis="x", rotation=25, labelsize=13)
 	for label in axes[1].get_xticklabels():
 		label.set_ha("right")
+		label.set_fontweight("bold")
 
 	axes[2].bar(algorithms, table["signature_size_bytes_mean"], color="#f28e2b")
 	axes[2].set_title("Signature Size")
 	axes[2].set_ylabel("Bytes")
-	axes[2].tick_params(axis="x", rotation=30)
+	axes[2].tick_params(axis="x", rotation=25, labelsize=13)
 	for label in axes[2].get_xticklabels():
 		label.set_ha("right")
+		label.set_fontweight("bold")
+	axes[2].set_xlabel("Algorithm")
+	for ax in axes:
+		_style_axes(ax)
 
 	_save_multi(fig, "signature_comparison", formats=formats)
 
@@ -117,14 +153,15 @@ def plot_messaging_system_view(df, formats=("png",)):
 	table = _metric_table(df, "messaging").copy()
 	table = table.sort_values("messages_per_sec", ascending=False)
 
-	fig, axes = plt.subplots(1, 2, figsize=(12, 6.0))
+	fig, axes = plt.subplots(2, 1, figsize=(9.5, 11.0))
 
 	axes[0].bar(table.index, table["messages_per_sec"], color="#4e79a7")
 	axes[0].set_title("Messaging Throughput")
 	axes[0].set_ylabel("Messages/sec")
-	axes[0].tick_params(axis="x", rotation=30)
+	axes[0].tick_params(axis="x", rotation=25, labelsize=13)
 	for label in axes[0].get_xticklabels():
 		label.set_ha("right")
+		label.set_fontweight("bold")
 
 	width = 0.35
 	x = range(len(table.index))
@@ -134,8 +171,11 @@ def plot_messaging_system_view(df, formats=("png",)):
 	axes[1].set_xticklabels(table.index, rotation=30, ha="right")
 	axes[1].set_title("Messaging Latency Components")
 	axes[1].set_ylabel("ms")
-	axes[1].legend()
+	_style_legend(axes[1].legend(loc="best", fontsize=13, frameon=True))
 	axes[1].set_yscale("log")
+	axes[1].set_xlabel("Algorithm")
+	for ax in axes:
+		_style_axes(ax)
 
 	_save_multi(fig, "messaging_system_view", formats=formats)
 
@@ -144,14 +184,15 @@ def plot_file_transfer_comparison(df, formats=("png",)):
 	table = _metric_table(df, "file_transfer").copy()
 	table = table.sort_values("throughput_mbps_mean", ascending=False)
 
-	fig, axes = plt.subplots(1, 2, figsize=(12, 6.0))
+	fig, axes = plt.subplots(2, 1, figsize=(9.5, 11.0))
 
 	axes[0].bar(table.index, table["throughput_mbps_mean"], color="#4e79a7")
 	axes[0].set_title("File Transfer Throughput")
 	axes[0].set_ylabel("Mbps")
-	axes[0].tick_params(axis="x", rotation=30)
+	axes[0].tick_params(axis="x", rotation=25, labelsize=13)
 	for label in axes[0].get_xticklabels():
 		label.set_ha("right")
+		label.set_fontweight("bold")
 
 	axes[1].scatter(table["tx_bytes_mean"], table["handshake_latency_ms_mean"], s=120, color="#e15759")
 	for alg, row in table.iterrows():
@@ -160,6 +201,11 @@ def plot_file_transfer_comparison(df, formats=("png",)):
 	axes[1].set_xlabel("Handshake Transmission Bytes")
 	axes[1].set_ylabel("Handshake Latency (ms)")
 	axes[1].set_yscale("log")
+	axes[1].tick_params(axis="both", labelsize=13)
+	for text in axes[1].texts:
+		text.set_fontweight("bold")
+	for ax in axes:
+		_style_axes(ax)
 
 	_save_multi(fig, "file_transfer_comparison", formats=formats)
 
@@ -168,16 +214,27 @@ def plot_hybrid_overhead(df, formats=("png",)):
 	table = _metric_table(df, "hybrid_overhead").copy()
 	table = table.loc[[idx for idx in ["ECC", "KYBER", "HYBRID"] if idx in table.index]]
 
-	fig, axes = plt.subplots(1, 2, figsize=(12, 6.0))
+	fig, axes = plt.subplots(2, 1, figsize=(9.5, 10.5))
 
 	axes[0].bar(table.index, table["handshake_latency_ms_mean"], color="#76b7b2")
 	axes[0].set_title("Hybrid Overhead: Handshake Latency")
 	axes[0].set_ylabel("ms")
 	axes[0].set_yscale("log")
+	axes[0].tick_params(axis="x", rotation=25, labelsize=13)
+	for label in axes[0].get_xticklabels():
+		label.set_ha("right")
+		label.set_fontweight("bold")
 
 	axes[1].bar(table.index, table["tx_bytes_mean"], color="#edc948")
 	axes[1].set_title("Hybrid Overhead: Handshake Transmission")
 	axes[1].set_ylabel("Bytes")
+	axes[1].tick_params(axis="x", rotation=25, labelsize=13)
+	for label in axes[1].get_xticklabels():
+		label.set_ha("right")
+		label.set_fontweight("bold")
+	axes[1].set_xlabel("Algorithm")
+	for ax in axes:
+		_style_axes(ax)
 
 	_save_multi(fig, "hybrid_overhead", formats=formats)
 
