@@ -200,19 +200,54 @@ Every handshake generates fresh key pairs for every algorithm. This matches how 
 
 # Benchmark Results
 
-## Graphs
+## Figures
 
-The five figures below cover messaging throughput and latency components, file-transfer throughput and setup cost, the key exchange latency-versus-size tradeoff, hybrid-specific overhead, and signature sign/verify/size behavior. They were selected because they show not only which primitive is faster, but *where* each design imposes cost.
+Figures \ref{fig:kex}--\ref{fig:ft} summarize the refined experiments. Every figure uses the same color for each algorithm, lists algorithms in the same order, and labels each bar with its measured value; error bars show one standard deviation where per-run samples exist. They were selected because they show not only which primitive is faster, but *where* each design imposes cost.
 
-![Messaging System View: Throughput and Latency Components](images/messaging_system_view.png){width=100%}
+```{=latex}
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{images/fig_key_exchange.pdf}
+\caption{Key exchange (1,000 runs each). (a) Mean latency per handshake, including key generation, on a log scale. (b) Bytes transmitted per handshake (public key plus ciphertext). (c) The resulting latency-versus-size tradeoff: ML-KEM is the fastest option but sends more data than ECDH.}
+\label{fig:kex}
+\end{figure*}
+```
 
-![File Transfer Comparison: Throughput and Handshake Setup Cost](images/file_transfer_comparison.png){width=100%}
+```{=latex}
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{images/fig_hybrid.pdf}
+\caption{Hybrid overhead (1,000 runs each). Combining ECDH and ML-KEM costs roughly the sum of both: (a) latency close to ECDH alone, and (b) about 5.4 times the bytes of ECDH.}
+\label{fig:hybrid}
+\end{figure*}
+```
 
-![Key Exchange Tradeoff: Latency vs Transmission Size](images/key_exchange_tradeoff.png){width=100%}
+```{=latex}
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{images/fig_signatures.pdf}
+\caption{Signatures, ECDSA P-256 versus ML-DSA-44 (1,000 runs each). (a) ML-DSA signing is slower and more variable because of rejection sampling. (b) Verification runs at parity. (c) ML-DSA signatures are 34 times larger.}
+\label{fig:sig}
+\end{figure*}
+```
 
-![Hybrid Overhead: Handshake Latency and Transmission Bytes](images/hybrid_overhead.png){width=100%}
+```{=latex}
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{images/fig_messaging.pdf}
+\caption{Secure messaging workload (1,000 sessions of 1,000 messages, one handshake per six sessions). (a) Throughput: ECDH, ML-KEM, and Hybrid are within about 1\% of each other. (b) Share of all messaging time spent on handshakes, on a log scale.}
+\label{fig:msg}
+\end{figure*}
+```
 
-![Signature Comparison: Sign/Verify Latency and Signature Size](images/signature_comparison.png){width=100%}
+```{=latex}
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{images/fig_file_transfer.pdf}
+\caption{File-transfer workload (100 transfers of a 5 MB file). (a) Throughput is statistically indistinguishable across algorithms; differences are smaller than run-to-run variation. (b) Per-handshake setup latency, on a log scale.}
+\label{fig:ft}
+\end{figure*}
+```
 
 ## Comparisons
 
