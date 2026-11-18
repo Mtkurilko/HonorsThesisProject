@@ -101,7 +101,7 @@ def svg(w, h, body, label):
 
 # ---------------------------------------------------------------- charts
 def chart_handshake_time():
-    W, X0, BW, ROW, BH = 800, 150, 450, 64, 38
+    W, X0, BW, ROW, BH = 800, 150, 450, 60, 36
     vmax = 0.30
     out = []
     # gridlines
@@ -129,7 +129,7 @@ def chart_handshake_time():
 
 
 def chart_handshake_bytes():
-    W, X0, BW, ROW, BH = 800, 150, 430, 64, 38
+    W, X0, BW, ROW, BH = 800, 150, 430, 60, 36
     vmax = 2000
     out = []
     for v in (0, 500, 1000, 1500, 2000):
@@ -234,28 +234,29 @@ body {{ font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: {INK
 .poster {{ position: relative; width: 48in; height: 36in; overflow: hidden; }}
 
 /* header */
-header {{ position: absolute; left: 0; top: 0; width: 48in; height: 5.4in; background: {RED};
+header {{ position: absolute; left: 0; top: 0; width: 48in; height: 6.35in; background: {RED};
           display: flex; align-items: center; padding: 0 0.9in 0 0.75in; gap: 0.6in; color: #fff; }}
-.seal {{ flex: 0 0 4.3in; height: 4.3in; border-radius: 50%; background: #fff; display: flex;
+.seal {{ flex: 0 0 5.3in; height: 5.3in; border-radius: 50%; background: #fff; display: flex;
          align-items: center; justify-content: center; }}
-.seal img {{ width: 4.05in; height: 4.05in; }}
+.seal img {{ width: 5.0in; height: 5.0in; }}
 .titles {{ flex: 1; }}
-.titles h1 {{ font-size: 96pt; line-height: 1.0; font-weight: 700; letter-spacing: -0.5pt; }}
-.titles .sub {{ font-size: 44pt; font-weight: 400; margin-top: 0.14in; line-height: 1.12; }}
-.titles .by {{ font-size: 30pt; margin-top: 0.3in; font-weight: 400; opacity: 0.96; }}
+.titles h1 {{ font-size: 106pt; line-height: 1.0; font-weight: 700; letter-spacing: -0.5pt; }}
+.titles .sub {{ font-size: 50pt; font-weight: 400; margin-top: 0.16in; line-height: 1.12; }}
+.titles .name {{ font-size: 68pt; font-weight: 700; margin-top: 0.34in; line-height: 1.0; letter-spacing: 0.3pt; }}
+.titles .by {{ font-size: 38pt; margin-top: 0.16in; font-weight: 400; opacity: 0.96; }}
 .titles .by b {{ font-weight: 700; }}
-.lockup {{ flex: 0 0 8.4in; display: flex; justify-content: flex-end; }}
-.lockup img {{ width: 8.4in; }}
-.band {{ position: absolute; top: 5.4in; left: 0; width: 48in; height: 0.27in; background: {RULE}; }}
+.lockup {{ flex: 0 0 7.4in; display: flex; justify-content: flex-end; }}
+.lockup img {{ width: 7.4in; }}
+.band {{ position: absolute; top: 6.35in; left: 0; width: 48in; height: 0.27in; background: {RULE}; }}
 
 /* body grid */
-main {{ position: absolute; top: 6.2in; left: 0.75in; right: 0.75in; bottom: 3.05in;
-        display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; column-gap: 1.1in; }}
-.col {{ position: relative; display: flex; flex-direction: column; gap: 0.5in; }}
+main {{ position: absolute; top: 7.05in; left: 0.75in; right: 0.75in; bottom: 3.3in;
+        display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; column-gap: 0.9in; }}
+.col {{ position: relative; display: flex; flex-direction: column; gap: 0.32in; }}
 .nw {{ white-space: nowrap; }}
 .voice {{ font-size: 25pt; line-height: 1.32; }}
 .voice p + p {{ margin-top: 0.12in; }}
-.col + .col::before {{ content: ""; position: absolute; left: -0.55in; top: 0.1in; bottom: 0;
+.col + .col::before {{ content: ""; position: absolute; left: -0.45in; top: 0.1in; bottom: 0;
                        width: 2pt; background: {RULE}; }}
 h2 {{ font-size: 62pt; line-height: 1.0; color: {RED}; font-weight: 700; letter-spacing: -0.3pt;
       margin-bottom: 0.16in; }}
@@ -271,7 +272,7 @@ b, strong {{ font-weight: 700; }}
 /* hand-made components */
 .steps {{ display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.22in; margin-top: 0.12in; }}
 .step {{ background: {TINT}; border-radius: 0.14in; padding: 0.22in 0.2in 0.24in; text-align: center; }}
-.step .k {{ font-size: 21pt; font-weight: 700; letter-spacing: 1.4pt; color: {RED}; text-transform: uppercase; }}
+.step .k {{ font-size: 22pt; font-weight: 700; letter-spacing: 1.4pt; color: {RED}; text-transform: uppercase; }}
 .step .d {{ font-size: 23pt; line-height: 1.22; margin-top: 0.06in; }}
 .step svg {{ display: block; margin: 0.08in auto 0; }}
 
@@ -279,7 +280,7 @@ b, strong {{ font-weight: 700; }}
 .eq {{ display: flex; align-items: center; justify-content: center; gap: 0.16in; margin: 0.14in 0 0.12in; }}
 .eq .term {{ text-align: center; }}
 .eq .v {{ font-size: 68pt; font-weight: 700; line-height: 1; }}
-.eq .l {{ font-size: 19.5pt; line-height: 1.15; color: {INK2}; margin-top: 0.06in; width: 2.75in; }}
+.eq .l {{ font-size: 21pt; line-height: 1.15; color: {INK2}; margin-top: 0.06in; width: 2.75in; }}
 .eq .op {{ font-size: 54pt; font-weight: 300; color: {MUTED}; padding-bottom: 0.45in; }}
 
 .rq {{ background: {INK}; color: #fff; border-radius: 0.16in; padding: 0.32in 0.36in 0.36in; }}
@@ -306,7 +307,7 @@ b, strong {{ font-weight: 700; }}
 .layers {{ display: flex; flex-direction: column; gap: 0.1in; margin-top: 0.12in; }}
 .layer {{ display: grid; grid-template-columns: 2.9in 1fr; border-radius: 0.12in; overflow: hidden; }}
 .layer .nm {{ background: {INK2}; color: #fff; font-weight: 700; font-size: 25pt; padding: 0.16in 0.2in; line-height: 1.12; }}
-.layer .nm span {{ display: block; font-weight: 400; font-size: 19pt; opacity: 0.85; margin-top: 0.04in; }}
+.layer .nm span {{ display: block; font-weight: 400; font-size: 20pt; opacity: 0.9; margin-top: 0.04in; }}
 .layer .ct {{ background: {TINT}; font-size: 23.5pt; padding: 0.16in 0.22in; line-height: 1.25; }}
 .layer .ct i {{ color: {INK2}; }}
 .layer.crypto .nm {{ background: {RED}; }}
@@ -315,7 +316,7 @@ b, strong {{ font-weight: 700; }}
 .stat {{ border-top: 6pt solid {INK}; padding-top: 0.1in; }}
 .stat .v {{ font-size: 72pt; font-weight: 700; line-height: 1.0; letter-spacing: -1pt; }}
 .stat .l {{ font-size: 22.5pt; line-height: 1.22; margin-top: 0.06in; }}
-.stat .s {{ font-size: 19pt; color: {MUTED}; margin-top: 0.04in; }}
+.stat .s {{ font-size: 21pt; color: {MUTED}; margin-top: 0.04in; }}
 .stat.good {{ border-top-color: {C['ECC']}; }}
 .stat.cost {{ border-top-color: {C['RSA']}; }}
 
@@ -334,22 +335,22 @@ b, strong {{ font-weight: 700; }}
 .phase.hot .num {{ background: {RED}; }}
 .phase .pt {{ font-size: 27pt; font-weight: 700; line-height: 1.15; padding-top: 0.06in; }}
 .phase .pd {{ font-size: 23pt; line-height: 1.25; margin-top: 0.03in; }}
-.phase .gate {{ font-size: 20pt; color: {RED}; font-weight: 700; margin-top: 0.04in; }}
+.phase .gate {{ font-size: 21pt; color: {RED}; font-weight: 700; margin-top: 0.04in; }}
 
 .take {{ background: {RED}; color: #fff; border-radius: 0.16in; padding: 0.3in 0.36in 0.34in; }}
 .take h3 {{ color: #fff; opacity: 0.85; }}
 .take p {{ font-size: 31pt; line-height: 1.26; font-weight: 500; }}
 
 .gloss {{ display: grid; grid-template-columns: 1fr 1fr; gap: 0.16in 0.34in; margin-top: 0.06in; }}
-.gloss div {{ font-size: 23pt; line-height: 1.26; }}
+.gloss div {{ font-size: 25pt; line-height: 1.26; }}
 .gloss b {{ color: {RED}; }}
 
-footer {{ position: absolute; left: 0.75in; right: 0.75in; bottom: 0.55in; height: 2.15in;
+footer {{ position: absolute; left: 0.75in; right: 0.75in; bottom: 0.5in; height: 2.55in;
           border-top: 3pt solid {RULE}; padding-top: 0.2in; display: grid;
-          grid-template-columns: 9.6in 1fr; column-gap: 0.8in; }}
-footer h3 {{ font-size: 19pt; color: {RED}; margin-bottom: 0.06in; }}
-footer .ack {{ font-size: 17.5pt; line-height: 1.3; }}
-footer ol {{ columns: 3; column-gap: 0.45in; font-size: 13.4pt; line-height: 1.24; color: {INK2}; padding-left: 0.32in; }}
+          grid-template-columns: 9.2in 1fr; column-gap: 0.7in; }}
+footer h3 {{ font-size: 22pt; color: {RED}; margin-bottom: 0.06in; }}
+footer .ack {{ font-size: 21pt; line-height: 1.3; }}
+footer ol {{ columns: 3; column-gap: 0.45in; font-size: 16pt; line-height: 1.24; color: {INK2}; padding-left: 0.32in; }}
 footer li {{ break-inside: avoid; margin-bottom: 0.03in; }}
 """
 
@@ -467,7 +468,7 @@ footer li {{ break-inside: avoid; margin-bottom: 0.03in; }}
   <div class="stats">
     <div class="stat good"><div class="v">{kem_speedup:.1f}×</div><div class="l">faster key exchange with ML-KEM than ECC</div></div>
     <div class="stat cost"><div class="v">{kem_bytes_x:.1f}×</div><div class="l">more data sent per handshake</div></div>
-    <div class="stat cost"><div class="v">{rsa_x:.0f}×</div><div class="l">slower: RSA vs. ECC, the legacy baseline</div></div>
+    <div class="stat cost"><div class="v">{rsa_x:.0f}×</div><div class="l">slower: RSA vs. ECC (new key every time)</div></div>
   </div>
   <div class="figcap" style="margin-top:0.24in">Time per handshake <span>(lower is better)</span></div>
   {chart_handshake_time()}
@@ -478,7 +479,7 @@ footer li {{ break-inside: avoid; margin-bottom: 0.03in; }}
 
 <section>
   <h3>Limits &amp; Next Steps</h3>
-  <p class="small">These results come from one framework and one host machine. Next: larger runs with confidence intervals, mobile and IoT hardware, certificate (PKI) chains, and dedicated lattice hardware accelerators <span class="cite">[9]</span>.</p>
+  <p class="small">One machine, no real network, simplified message cipher: results compare algorithms, not live systems. Next: network emulation, AES-GCM, ML-KEM-768, and lattice accelerators <span class="cite">[9]</span>.</p>
 </section>
 """
 
@@ -547,7 +548,8 @@ footer li {{ break-inside: avoid; margin-bottom: 0.03in; }}
   <div class="titles">
     <h1>Post-Quantum Cryptography in Practice</h1>
     <div class="sub">Benchmarking, Protocol Integration, and Migration Strategy for Real Systems</div>
-    <div class="by"><b>Michael Kurilko</b> &nbsp;|&nbsp; Thesis Mentor: Dr. Joseph Kirtland &nbsp;|&nbsp; Marist University Honors Program</div>
+    <div class="name">Michael Kurilko</div>
+    <div class="by">Thesis Mentor: Dr. Joseph Kirtland &nbsp;|&nbsp; Marist University Honors Program</div>
   </div>
   <div class="lockup"><img src="assets/marist_honors_white.png" alt="Marist University Honors Program"></div>
 </header>
@@ -566,7 +568,25 @@ footer li {{ break-inside: avoid; margin-bottom: 0.03in; }}
   <div class="col">{nowrap(col4)}</div>
 </main>
 {footer}
-</div></body></html>"""
+</div>
+<script>
+addEventListener("load", () => {{
+  const r = [];
+  document.querySelectorAll(".col").forEach((c, i) => {{
+    let m = 0;
+    c.querySelectorAll(":scope > section").forEach(s => m = Math.max(m, s.getBoundingClientRect().bottom));
+    r.push("col" + (i + 1) + "=" + ((document.querySelector("main").getBoundingClientRect().bottom - m) / 96).toFixed(2));
+  }});
+  const f = document.querySelector("footer");
+  let fm = 0;
+  f.querySelectorAll("li, p").forEach(e => fm = Math.max(fm, e.getBoundingClientRect().bottom));
+  r.push("footer=" + ((f.getBoundingClientRect().bottom - fm) / 96).toFixed(2));
+  const h = document.querySelector(".titles");
+  r.push("titles_w=" + (h.scrollWidth - h.clientWidth));
+  document.body.setAttribute("data-fit", r.join(" "));
+}});
+</script>
+</body></html>"""
 
 
 def nowrap(html):
@@ -585,7 +605,12 @@ def main():
                     "--run-all-compositor-stages-before-draw", "--virtual-time-budget=4000",
                     f"--print-to-pdf={pdf}", html.as_uri()],
                    check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    dom = subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--virtual-time-budget=4000",
+                          "--dump-dom", html.as_uri()], capture_output=True, text=True).stdout
+    import re
+    fit = re.search(r'data-fit="([^"]*)"', dom)
     print(f"wrote {html}\nwrote {pdf}")
+    print("free space in inches (negative = overflow):", fit.group(1) if fit else "n/a")
 
 
 if __name__ == "__main__":

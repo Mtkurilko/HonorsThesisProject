@@ -9,7 +9,7 @@ abstract: |
 
   Results show clear tradeoffs: PQ and hybrid modes substantially improve quantum resilience but increase transmission size and, in some configurations, handshake overhead. At the same time, workload-level throughput can remain competitive when session reuse and crypto-agile abstraction layers are applied. Building on these findings, we propose a practical migration strategy organized into phased hybrid deployment, interface-level crypto agility, and operational governance steps for enterprise adoption.
 
-  The thesis contributes (1) an empirical, systems-focused evaluation of PQ integration costs, (2) a repeatable methodology for comparing classical, PQ, and hybrid configurations, and (3) a deployment-oriented migration framework that balances security modernization with engineering feasibility.
+  The thesis contributes (1) a reproducible, systems-focused comparison of PQ integration costs that confirms and explains the tradeoffs reported in prior benchmarking work, (2) a repeatable methodology for comparing classical, PQ, and hybrid configurations, and (3) a deployment-oriented migration framework that balances security modernization with engineering feasibility.
 link-citations: true
 filters:
   - pandoc-crossref
@@ -168,6 +168,8 @@ Two workload classes were used to move beyond isolated microbenchmarks:
 
 The workloads report latency components, throughput, transmission bytes, and memory behavior, so overhead can be localized (setup vs steady state).
 
+Both workloads run inside a single process with no real network link. Messages are protected with a simple SHA-256-based stream cipher rather than a production authenticated cipher such as AES-GCM. Transmission bytes are therefore counted, not timed over a link, and the workloads are best read as relative comparisons between algorithms rather than as absolute predictions for a deployed system.
+
 The two microbenchmark families (key exchange and signatures) were chosen because they represent the dominant asymmetric operations in deployment: session establishment and authenticity verification. If migration cost is acceptable in these two paths, organizations can reason about most of the practical asymmetric risk surface before addressing secondary protocol features. This design also aligns with recent heterogeneous-environment and industry benchmarking studies that focus on KEM/signature behavior as first-order deployment signals [@pqc_heterogeneous_benchmark; @pqc_industry_performance].
 
 The project also includes an implemented **hybrid key exchange mode** (`HYBRID (ECC+KYBER)`) that derives session key material from both classical (ECC) and post-quantum (KYBER) shared secrets. Hybridization is also discussed in broader cross-technology security literature (including PQC+QKD combinations), which supports staged transition models rather than abrupt single-step replacement [@hybrid_nist_qkd].
@@ -194,6 +196,8 @@ All experiments use the same parameter sets: RSA-2048, ECC on the NIST P-256 cur
 
 All results were collected on a single machine (Apple M4 Pro, macOS 15.7, Python 3.11.2). Key exchange, signature, and hybrid-overhead microbenchmarks use 1,000 runs per algorithm. Messaging uses 1,000 sessions of 1,000 messages each, with one handshake reused across six sessions (167 handshakes per algorithm). File transfer uses 100 transfers of a 5 MB file in 16 KB chunks. Before timing, the signature benchmark checks that each ML-DSA signature actually verifies, so the verify measurement cannot silently time a rejected signature.
 
+Every handshake generates fresh key pairs for every algorithm. This matches how ECDH and ML-KEM are used in modern TLS, where keys are ephemeral. For RSA it is a pessimistic baseline: much of RSA's cost and variance comes from generating a new 2048-bit key, which deployed RSA key transport avoided by reusing a long-term key (and TLS 1.3 removed RSA key exchange altogether). RSA results should be read as an upper bound on its setup cost.
+
 # Benchmark Results
 
 ## Graphs
@@ -218,7 +222,7 @@ The refined experiments produce concrete, repeatable tradeoffs, consistent in di
   - ECDH mean: **0.195 ms** (SD 0.007)
   - ML-KEM mean: **0.052 ms** (SD 0.003; **0.26x** ECDH latency, about **3.8x faster**)
   - Hybrid mean: **0.251 ms** (SD 0.006; **1.29x** ECDH latency)
-  - RSA mean: **56.18 ms** (median 49.28, SD 33.06; **288x** ECDH latency, with high variance from RSA key generation)
+  - RSA mean: **56.18 ms** (median 49.28, SD 33.06; **288x** ECDH latency; pessimistic, because it includes generating a new RSA key for every handshake)
 - **Key exchange transmission bytes:**
   - ECDH: **356 B**
   - ML-KEM: **1568 B** (**+340.4%** vs ECDH)
@@ -277,7 +281,7 @@ For engineering teams, this means migration should prioritize protocol paths whe
 
 ## Bandwidth Inflation
 
-Post-quantum and hybrid schemes increase key and ciphertext/signature sizes. This affects handshake packets, storage of key material, and transport-level behavior in constrained links. In practical terms, the cost is often acceptable in data center environments but can be significant in edge or mobile contexts, especially under embedded resource limits [@pqc_embedded_complexity].
+Post-quantum and hybrid schemes increase key and ciphertext/signature sizes. This affects handshake packets, storage of key material, and transport-level behavior in constrained links. In practical terms, the cost is often acceptable in data center environments but can be significant in edge or mobile contexts, especially under embedded resource limits [@pqc_embedded_complexity]. Because this framework runs without a network, it measures how many extra bytes each handshake carries but not the time those bytes cost on a real link; the effects below come from deployment-focused literature.
 
 In real systems, "larger cryptographic artifacts" create visible operational costs:
 
@@ -356,10 +360,12 @@ This thesis set out to deliver three outcomes: benchmarking, protocol integratio
 
 # Discussion & Future Work
 
-This project demonstrates that PQ migration is feasible with disciplined measurement and interface-driven design, but it also has limits. Current results are tied to this framework, parameter settings, and host environment. Broader external validity requires repeated runs across network conditions, hardware classes, and protocol stacks.
+This project demonstrates that PQ migration is feasible with disciplined measurement and interface-driven design, but it also has limits. Current results are tied to this framework, parameter settings, and host environment. Three limits matter most. First, the workloads run without a network, so larger handshakes never cost transmission time here. Second, the simplified message cipher is much slower per message than a production cipher such as AES-GCM, which makes setup cost look smaller in proportion than it would in a deployed system. Third, the parameter sets tested (ML-KEM-512 and P-256) are lighter than those most deployed TLS stacks use today (ML-KEM-768 combined with X25519). The relative conclusions (ML-KEM is fast but larger, hybrid adds little latency, ML-DSA costs bytes rather than verification time) are robust to these limits; the absolute percentages are not. Broader external validity requires repeated runs across network conditions, hardware classes, and protocol stacks.
 
 Future work includes:
 
+- adding network emulation (round-trip time, bandwidth, and packet loss) so byte growth is measured as time,
+- replacing the simplified message cipher with AES-GCM and testing the ML-KEM-768 and X25519 parameter sets used in deployed TLS,
 - repeating runs across multiple machines and reporting confidence intervals,
 - extending workload diversity (e.g., API gateways, service meshes, IoT constraints),
 - integrating certificate-path and public key infrastructure (PKI) lifecycle analysis,
