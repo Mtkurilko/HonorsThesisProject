@@ -42,7 +42,11 @@ def run_signature_bench(iter=ITERATIONS, message=DEF_MESSAGE): # Call function f
 
     # Verify Time
     ecdsa_verify_data = latency.measure_latency(lambda: ecc.verify_signature(ecdsa_pub, ecdsa_signature, message), iter)
-    mldsa_verify_data = latency.measure_latency(lambda: dilithium.verify_signature(mldsa_pub, mldsa_signature, message), iter)
+    # dilithium.verify_signature takes (public_key, message, signature); a swapped call
+    # returns False instantly and would time a rejection instead of a real verification.
+    if not dilithium.verify_signature(mldsa_pub, message, mldsa_signature):
+        raise RuntimeError("ML-DSA signature failed to verify; benchmark would be invalid")
+    mldsa_verify_data = latency.measure_latency(lambda: dilithium.verify_signature(mldsa_pub, message, mldsa_signature), iter)
 
     # Signature Size
     ecdsa_size_data = bandwith.measure_size(ecdsa_signature)

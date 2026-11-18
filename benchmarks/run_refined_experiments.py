@@ -189,6 +189,8 @@ def export_refined_results(
                 ["key_exchange", label, "cpu_ms_mean", values["cpu_ms"]],
                 ["key_exchange", label, "latency_ms_mean", values["latency_ms"]],
                 ["key_exchange", label, "tx_bytes_mean", values["tx_bytes"]],
+                ["key_exchange", label, "latency_ms_median", statistics.median(values["latency_ms_raw"])],
+                ["key_exchange", label, "latency_ms_std", statistics.stdev(values["latency_ms_raw"])],
             ]
         )
         raw_rows.extend(
@@ -210,6 +212,10 @@ def export_refined_results(
                 ["signatures", label, "sign_ms_mean", sig_data[sign_key]["mean"]],
                 ["signatures", label, "verify_ms_mean", sig_data[verify_key]["mean"]],
                 ["signatures", label, "signature_size_bytes_mean", _mean(sig_data[size_key])],
+                ["signatures", label, "sign_ms_median", sig_data[sign_key]["median"]],
+                ["signatures", label, "sign_ms_std", sig_data[sign_key]["std"]],
+                ["signatures", label, "verify_ms_median", sig_data[verify_key]["median"]],
+                ["signatures", label, "verify_ms_std", sig_data[verify_key]["std"]],
             ]
         )
         raw_rows.extend(
@@ -288,11 +294,13 @@ def export_refined_results(
         writer.writerows(raw_rows)
 
 
-def run_refined_experiments(runs=DEFAULT_RUNS, message=DEFAULT_MESSAGE, include_hybrid=False):
+def run_refined_experiments(runs=DEFAULT_RUNS, message=DEFAULT_MESSAGE, include_hybrid=False, file_transfer_runs=None):
+    # Each file transfer moves 5 MB (~1 s), so it can use fewer runs than the microbenchmarks.
+    file_transfer_runs = runs if file_transfer_runs is None else file_transfer_runs
     kex_data = run_key_exchange_bench(runs, message, include_hybrid=include_hybrid)
     sig_data = run_signature_bench(runs, message)
     messaging_data = run_messaging_suite(sessions=runs, include_hybrid=include_hybrid)
-    file_transfer_data = run_file_transfer_suite(transfers=runs, include_hybrid=include_hybrid)
+    file_transfer_data = run_file_transfer_suite(transfers=file_transfer_runs, include_hybrid=include_hybrid)
     hybrid_data = run_hybrid_overhead_experiment(iterations=runs, include_hybrid=include_hybrid)
 
     export_refined_results(
@@ -314,6 +322,13 @@ def run_refined_experiments(runs=DEFAULT_RUNS, message=DEFAULT_MESSAGE, include_
 
 if __name__ == "__main__":
     runs = int(input("How many runs do you want for each experiment?: "))
-    run_refined_experiments(runs=runs, message=DEFAULT_MESSAGE, include_hybrid=False)
+    ft_input = input("How many file-transfer runs? (blank = same): ").strip()
+    include_hybrid = input("Include hybrid (ECC+KYBER)? [Y/n]: ").strip().lower() != "n"
+    run_refined_experiments(
+        runs=runs,
+        message=DEFAULT_MESSAGE,
+        include_hybrid=include_hybrid,
+        file_transfer_runs=int(ft_input) if ft_input else None,
+    )
     print("CSV exported: refined_experiment_summary.csv")
     print("CSV exported: refined_experiment_raw.csv")

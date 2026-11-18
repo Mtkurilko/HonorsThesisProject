@@ -1,7 +1,7 @@
 ---
 title: "Post-Quantum Cryptography in Practice: Benchmarking, Protocol Integration, and Migration Strategy for Real Systems"
 author: "Michael Kurilko"
-date: "May 16th, 2026"
+date: "December 2026"
 bibliography: references.bib
 csl: ieee.csl
 abstract: |
@@ -66,7 +66,7 @@ Because this thesis includes cryptography and systems language, this short guide
 
 In short: this thesis does not only ask "Which algorithm is faster?" It asks, "Where does cost appear, how much does it matter in real workflows, and what migration sequence is operationally safe?"
 
-### Motivation and What I Learned
+## Motivation and What I Learned
 
 I chose this topic after exploring current technology problems that felt both important and genuinely interesting to me. I wanted something that blended math and computer science, and post-quantum cryptography stood out because it has both deep theory and real-world urgency. A conversation I had with someone else who was also interested in PQC helped push me toward focusing this thesis on practical migration, not just cryptographic concepts.
 
@@ -121,9 +121,7 @@ Operationally, ML-KEM has a clean three-step flow:
 
 Why this matters in practice: the protocol gets a shared key without directly transporting that key in plaintext form, and this maps cleanly to handshake state machines.
 
-In systems terms, the main tradeoff observed in this work is low computation latency but larger transmitted artifacts.
-
-In this framework, ML-KEM generally shows very low handshake latency but higher transmitted bytes compared with ECDH.
+In systems terms, the main tradeoff observed in this work is low computation latency but larger transmitted artifacts: ML-KEM shows very low handshake latency but more transmitted bytes than ECDH.
 
 ## ML-DSA (FIPS 204)
 
@@ -137,7 +135,7 @@ At a high level, ML-DSA signs by sampling structured randomness and producing a 
 
 This decomposition is important because many real systems verify more often than they sign (for example, software update distribution, artifact verification pipelines, and distributed service authentication). Signature-size growth remains an integration cost that impacts storage, bandwidth, and certificate-chain design.
 
-The measured pattern is consistent with expected tradeoffs: ML-DSA verification is very fast, while signature sizes are substantially larger than ECDSA.
+The measured pattern is consistent with expected tradeoffs: ML-DSA verification runs at essentially the same speed as ECDSA, signing is several times slower, and signatures are substantially larger.
 
 # System Design
 
@@ -153,7 +151,7 @@ This separation made it possible to test algorithm substitutions without rewriti
 
 The three-layer split was intentional. The crypto layer isolates primitive correctness and interchangeability, the benchmark layer provides controlled and repeatable measurement, and the workload layer captures end-to-end behavior seen by real systems. Keeping these concerns separate reduced experimental confounders and made debugging much faster when a regression appeared in only one layer.
 
-Why this directly answers the advisor question about "three layers":
+Each layer exists to prevent a specific failure:
 
 - Without a separate **crypto layer**, algorithm changes risk rewriting application logic.
 - Without a separate **benchmark layer**, performance observations are hard to reproduce and compare.
@@ -192,26 +190,15 @@ The motivation for using all three methodology types was to answer different eng
 
 Together, they prevent overfitting conclusions to a single metric view.
 
-This is the explicit rationale for the two chosen microbenchmark families:
+All experiments use the same parameter sets: RSA-2048, ECC on the NIST P-256 curve (ECDH for key agreement, ECDSA for signatures), ML-KEM-512, and ML-DSA-44. Classical primitives come from the Python `cryptography` library (v46.0.5) and post-quantum primitives from `pqcrypto` (v0.4.0). In the workload results, `KYBER` refers to ML-KEM, since ML-KEM is the standardized form of CRYSTALS-Kyber.
 
-- **Key exchange microbenchmark:** answers setup-path questions (latency + handshake bytes).
-- **Signature microbenchmark:** answers authenticity-path questions (sign/verify asymmetry + signature-size impact).
-
-These are the two asymmetric operations that most directly affect migration risk in production systems.
+All results were collected on a single machine (Apple M4 Pro, macOS 15.7, Python 3.11.2). Key exchange, signature, and hybrid-overhead microbenchmarks use 1,000 runs per algorithm. Messaging uses 1,000 sessions of 1,000 messages each, with one handshake reused across six sessions (167 handshakes per algorithm). File transfer uses 100 transfers of a 5 MB file in 16 KB chunks. Before timing, the signature benchmark checks that each ML-DSA signature actually verifies, so the verify measurement cannot silently time a rejected signature.
 
 # Benchmark Results
 
 ## Graphs
 
-The strongest comparison figures produced in this work are:
-
-- `messaging_system_view` (throughput and latency components)
-- `file_transfer_comparison` (throughput and setup cost)
-- `key_exchange_tradeoff` (latency vs transmission size)
-- `hybrid_overhead` (hybrid-specific latency and bytes)
-- `signature_comparison` (sign, verify, size)
-
-These figures were selected because they show not only which primitive is faster, but *where* each design imposes cost.
+The five figures below cover messaging throughput and latency components, file-transfer throughput and setup cost, the key exchange latency-versus-size tradeoff, hybrid-specific overhead, and signature sign/verify/size behavior. They were selected because they show not only which primitive is faster, but *where* each design imposes cost.
 
 ![Messaging System View: Throughput and Latency Components](images/messaging_system_view.png){width=100%}
 
@@ -225,27 +212,29 @@ These figures were selected because they show not only which primitive is faster
 
 ## Comparisons
 
-The refined experiments produce concrete, repeatable tradeoffs [@pqc_heterogeneous_benchmark; @pqc_industry_performance]:
+The refined experiments produce concrete, repeatable tradeoffs, consistent in direction with prior benchmarking studies [@pqc_heterogeneous_benchmark; @pqc_industry_performance]:
 
 - **Key exchange latency:**
-  - ECDH mean: **0.1906 ms**
-  - ML-KEM mean: **0.0468 ms** (**0.25x** ECDH latency)
-  - Hybrid mean: **0.2430 ms** (**1.27x** ECDH latency)
-  - RSA mean: **48.6581 ms** (**255.3x** ECDH latency)
+  - ECDH mean: **0.195 ms** (SD 0.007)
+  - ML-KEM mean: **0.052 ms** (SD 0.003; **0.26x** ECDH latency, about **3.8x faster**)
+  - Hybrid mean: **0.251 ms** (SD 0.006; **1.29x** ECDH latency)
+  - RSA mean: **56.18 ms** (median 49.28, SD 33.06; **288x** ECDH latency, with high variance from RSA key generation)
 - **Key exchange transmission bytes:**
   - ECDH: **356 B**
   - ML-KEM: **1568 B** (**+340.4%** vs ECDH)
   - Hybrid: **1940 B** (**+444.9%** vs ECDH)
   - RSA: **707 B** (**+98.6%** vs ECDH)
 - **Signatures:**
-  - ML-DSA verification is **46.9x faster** than ECDSA verification.
-  - ML-DSA signing is **3.0x slower** than ECDSA signing.
-  - ML-DSA signatures are **34.1x larger** than ECDSA signatures.
+  - ML-DSA verification is at **parity** with ECDSA: **0.042 ms** vs **0.040 ms** (**1.03x**).
+  - ML-DSA signing is **8.5x slower** by mean (**0.163 ms** vs **0.019 ms**) and **6.5x slower** by median; its rejection-sampling loop makes signing time variable (SD 0.107 ms).
+  - ML-DSA signatures are **34.1x larger** than ECDSA signatures (2,420 B vs 71 B).
 - **Messaging throughput (with session reuse):**
-  - RSA: **17,243.9 msgs/s**
-  - ECC: **20,790.7 msgs/s**
-  - KYBER: **21,137.0 msgs/s**
-  - Hybrid: **20,605.1 msgs/s**
+  - RSA: **16,622 msgs/s**
+  - ECC: **19,962 msgs/s**
+  - ML-KEM (KYBER): **19,751 msgs/s**
+  - Hybrid: **19,878 msgs/s**
+
+  ECC, ML-KEM, and Hybrid sit within about 1% of each other; only RSA falls behind (about 17% lower).
 
 These outcomes reinforce that algorithm choice should be tied to workload and risk profile, not one-dimensional speed rankings.
 
@@ -262,23 +251,25 @@ Three experiment-derived conclusions are central:
 The following findings are not generic PQC statements; they come directly from the measured data in this project:
 
 1. **Handshake-share collapse in messaging sessions:**
-  - RSA handshake contributes **38.69%** of session latency.
-  - ECC handshake contributes **0.60%** of session latency.
-  - KYBER handshake contributes **0.19%** of session latency.
-  - Hybrid handshake contributes **0.88%** of session latency.
+  - RSA handshakes account for **16.4%** of total messaging time.
+  - ECC handshakes account for **0.11%** of total messaging time.
+  - ML-KEM (KYBER) handshakes account for **0.03%** of total messaging time.
+  - Hybrid handshakes account for **0.14%** of total messaging time.
+
+  Here "total messaging time" is all handshake time plus all session time across the 1,000 sessions. A single RSA handshake costs about as much as one full 1,000-message session (118%), while a single Hybrid handshake costs under 1% of one.
 
   Interpretation: once sessions are reused, post-quantum setup overhead becomes a small part of end-to-end messaging latency.
 
 2. **Throughput-size decoupling in file transfer:**
-  - Throughput spread across all algorithms is only **0.606 Mbps**.
-  - Hybrid throughput is only **0.10% lower** than ECC despite larger handshake bytes.
+  - Throughput spread across all algorithms is only **0.43 Mbps** (41.6 to 42.1 Mbps), smaller than the run-to-run standard deviation of each algorithm (0.47 to 0.63 Mbps).
+  - Hybrid throughput is only **0.20% lower** than ECC despite larger handshake bytes.
 
   Interpretation: for transfer-heavy workloads, setup-byte inflation does not automatically imply large throughput collapse.
 
-3. **Verification-dominant advantage for ML-DSA:**
-  - Verification is **46.9x faster** than ECDSA, while signing is slower.
+3. **For ML-DSA, the cost is bytes, not verification time:**
+  - Verification runs at parity with ECDSA (1.03x), signing is 8.5x slower, and signatures are 34.1x larger.
 
-  Interpretation: ML-DSA is especially attractive in architectures where verification volume dominates signing volume.
+  Interpretation: in verification-heavy architectures (software updates, artifact pipelines, service authentication), ML-DSA adds almost no CPU cost where it matters most. The real migration cost is signature size in storage, bandwidth, and certificate chains.
 
 For engineering teams, this means migration should prioritize protocol paths where long-term confidentiality matters most and where handshake overhead can be amortized.
 
@@ -355,9 +346,9 @@ Based on the implementation and measured behavior, a practical roadmap is:
 
 This phased model reduces migration risk while preserving forward security goals.
 
-## Outcomes Promised
+## Summary of Contributions
 
-The paper promises three things: benchmarking, protocol integration, and migration strategy. This thesis delivers those three outcomes with direct evidence:
+This thesis set out to deliver three outcomes: benchmarking, protocol integration, and migration strategy. Each is supported by direct evidence:
 
 1. **Benchmarking:** reproducible microbenchmark and workload metrics across classical, PQ, and hybrid configurations.
 2. **Protocol Integration:** implemented crypto-agile layering and a functioning hybrid handshake path (ECC+KYBER).
@@ -369,7 +360,7 @@ This project demonstrates that PQ migration is feasible with disciplined measure
 
 Future work includes:
 
-- adding larger-scale statistical runs and confidence intervals,
+- repeating runs across multiple machines and reporting confidence intervals,
 - extending workload diversity (e.g., API gateways, service meshes, IoT constraints),
 - integrating certificate-path and public key infrastructure (PKI) lifecycle analysis,
 - and evaluating additional standardized or emerging primitives where relevant.

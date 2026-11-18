@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>PQC Honors Thesis Poster</title>
+<style>
+@page { size: 48in 36in; margin: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 48in; height: 36in; background: #FFFFFF; }
+body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: #1F1F1C;
+        font-size: 28.5pt; line-height: 1.32; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.poster { position: relative; width: 48in; height: 36in; overflow: hidden; }
+
+/* header */
+header { position: absolute; left: 0; top: 0; width: 48in; height: 5.4in; background: #E21737;
+          display: flex; align-items: center; padding: 0 0.9in 0 0.75in; gap: 0.6in; color: #fff; }
+.seal { flex: 0 0 4.3in; height: 4.3in; border-radius: 50%; background: #fff; display: flex;
+         align-items: center; justify-content: center; }
+.seal img { width: 4.05in; height: 4.05in; }
+.titles { flex: 1; }
+.titles h1 { font-size: 96pt; line-height: 1.0; font-weight: 700; letter-spacing: -0.5pt; }
+.titles .sub { font-size: 44pt; font-weight: 400; margin-top: 0.14in; line-height: 1.12; }
+.titles .by { font-size: 30pt; margin-top: 0.3in; font-weight: 400; opacity: 0.96; }
+.titles .by b { font-weight: 700; }
+.lockup { flex: 0 0 8.4in; display: flex; justify-content: flex-end; }
+.lockup img { width: 8.4in; }
+.band { position: absolute; top: 5.4in; left: 0; width: 48in; height: 0.27in; background: #D9D7D5; }
+
+/* body grid */
+main { position: absolute; top: 6.2in; left: 0.75in; right: 0.75in; bottom: 3.05in;
+        display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; column-gap: 1.1in; }
+.col { position: relative; display: flex; flex-direction: column; gap: 0.5in; }
+.nw { white-space: nowrap; }
+.voice { font-size: 25pt; line-height: 1.32; }
+.voice p + p { margin-top: 0.12in; }
+.col + .col::before { content: ""; position: absolute; left: -0.55in; top: 0.1in; bottom: 0;
+                       width: 2pt; background: #D9D7D5; }
+h2 { font-size: 62pt; line-height: 1.0; color: #E21737; font-weight: 700; letter-spacing: -0.3pt;
+      margin-bottom: 0.16in; }
+h3 { font-size: 27pt; color: #505046; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4pt;
+      margin-bottom: 0.08in; }
+p + p { margin-top: 0.14in; }
+b, strong { font-weight: 700; }
+.lead { font-size: 34pt; line-height: 1.26; }
+.small { font-size: 23.5pt; line-height: 1.3; color: #505046; }
+.cite { color: #77756C; font-size: 0.8em; }
+.red { color: #E21737; }
+
+/* hand-made components */
+.steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.22in; margin-top: 0.12in; }
+.step { background: #F4F2EE; border-radius: 0.14in; padding: 0.22in 0.2in 0.24in; text-align: center; }
+.step .k { font-size: 21pt; font-weight: 700; letter-spacing: 1.4pt; color: #E21737; text-transform: uppercase; }
+.step .d { font-size: 23pt; line-height: 1.22; margin-top: 0.06in; }
+.step svg { display: block; margin: 0.08in auto 0; }
+
+.mosca { border: 3pt solid #1F1F1C; border-radius: 0.16in; padding: 0.26in 0.32in 0.28in; }
+.eq { display: flex; align-items: center; justify-content: center; gap: 0.16in; margin: 0.14in 0 0.12in; }
+.eq .term { text-align: center; }
+.eq .v { font-size: 68pt; font-weight: 700; line-height: 1; }
+.eq .l { font-size: 19.5pt; line-height: 1.15; color: #505046; margin-top: 0.06in; width: 2.75in; }
+.eq .op { font-size: 54pt; font-weight: 300; color: #77756C; padding-bottom: 0.45in; }
+
+.rq { background: #1F1F1C; color: #fff; border-radius: 0.16in; padding: 0.32in 0.36in 0.36in; }
+.rq h3 { color: #fff; opacity: 0.75; }
+.rq p { font-size: 33pt; line-height: 1.26; font-weight: 500; }
+
+.eqs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.22in; margin-top: 0.14in; }
+.eqbox { background: #F4F2EE; border-radius: 0.14in; padding: 0.2in 0.24in; }
+.eqbox .k { font-size: 21pt; font-weight: 700; letter-spacing: 1.2pt; text-transform: uppercase; color: #505046; }
+.eqbox .m { font-family: "Menlo", "Courier New", monospace; font-size: 28pt; line-height: 1.45; margin: 0.06in 0; }
+.eqbox .r { font-size: 23pt; font-weight: 700; }
+
+.flow { display: flex; flex-direction: column; gap: 0.16in; margin-top: 0.1in; }
+.fstep { display: grid; grid-template-columns: 1.3in 1fr; gap: 0.24in; align-items: center; }
+.fstep .ic { width: 1.3in; height: 1.3in; border-radius: 50%; background: #F4F2EE;
+              display: flex; align-items: center; justify-content: center; }
+.fstep .tx { font-size: 26.5pt; line-height: 1.26; }
+.fstep .tx b.n { color: #E21737; }
+
+.hybrid { display: flex; align-items: center; gap: 0.16in; margin: 0.12in 0 0.1in; }
+.chip { border-radius: 0.12in; padding: 0.14in 0.24in; font-size: 24.5pt; font-weight: 700; color: #fff; text-align: center; line-height: 1.15; }
+.plus { font-size: 40pt; color: #77756C; font-weight: 300; }
+
+.layers { display: flex; flex-direction: column; gap: 0.1in; margin-top: 0.12in; }
+.layer { display: grid; grid-template-columns: 2.9in 1fr; border-radius: 0.12in; overflow: hidden; }
+.layer .nm { background: #505046; color: #fff; font-weight: 700; font-size: 25pt; padding: 0.16in 0.2in; line-height: 1.12; }
+.layer .nm span { display: block; font-weight: 400; font-size: 19pt; opacity: 0.85; margin-top: 0.04in; }
+.layer .ct { background: #F4F2EE; font-size: 23.5pt; padding: 0.16in 0.22in; line-height: 1.25; }
+.layer .ct i { color: #505046; }
+.layer.crypto .nm { background: #E21737; }
+
+.stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.2in; }
+.stat { border-top: 6pt solid #1F1F1C; padding-top: 0.1in; }
+.stat .v { font-size: 72pt; font-weight: 700; line-height: 1.0; letter-spacing: -1pt; }
+.stat .l { font-size: 22.5pt; line-height: 1.22; margin-top: 0.06in; }
+.stat .s { font-size: 19pt; color: #77756C; margin-top: 0.04in; }
+.stat.good { border-top-color: #2B7BB9; }
+.stat.cost { border-top-color: #A08A6E; }
+
+.figcap { font-size: 23pt; font-weight: 700; color: #505046; margin: 0.06in 0 0.04in; }
+.figcap span { font-weight: 400; color: #77756C; }
+
+.callout { border-left: 8pt solid #E21737; padding: 0.04in 0 0.04in 0.26in; font-size: 27pt; line-height: 1.28; }
+
+.road { display: flex; flex-direction: column; gap: 0; margin-top: 0.08in; }
+.phase { display: grid; grid-template-columns: 0.95in 1fr; gap: 0.22in; position: relative; padding-bottom: 0.2in; }
+.phase::before { content: ""; position: absolute; left: 0.455in; top: 0.8in; bottom: 0; width: 3pt; background: #D9D7D5; }
+.phase:last-child::before { display: none; }
+.phase:last-child { padding-bottom: 0; }
+.phase .num { width: 0.95in; height: 0.95in; border-radius: 50%; background: #1F1F1C; color: #fff;
+               font-size: 34pt; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.phase.hot .num { background: #E21737; }
+.phase .pt { font-size: 27pt; font-weight: 700; line-height: 1.15; padding-top: 0.06in; }
+.phase .pd { font-size: 23pt; line-height: 1.25; margin-top: 0.03in; }
+.phase .gate { font-size: 20pt; color: #E21737; font-weight: 700; margin-top: 0.04in; }
+
+.take { background: #E21737; color: #fff; border-radius: 0.16in; padding: 0.3in 0.36in 0.34in; }
+.take h3 { color: #fff; opacity: 0.85; }
+.take p { font-size: 31pt; line-height: 1.26; font-weight: 500; }
+
+.gloss { display: grid; grid-template-columns: 1fr 1fr; gap: 0.16in 0.34in; margin-top: 0.06in; }
+.gloss div { font-size: 23pt; line-height: 1.26; }
+.gloss b { color: #E21737; }
+
+footer { position: absolute; left: 0.75in; right: 0.75in; bottom: 0.55in; height: 2.15in;
+          border-top: 3pt solid #D9D7D5; padding-top: 0.2in; display: grid;
+          grid-template-columns: 9.6in 1fr; column-gap: 0.8in; }
+footer h3 { font-size: 19pt; color: #E21737; margin-bottom: 0.06in; }
+footer .ack { font-size: 17.5pt; line-height: 1.3; }
+footer ol { columns: 3; column-gap: 0.45in; font-size: 13.4pt; line-height: 1.24; color: #505046; padding-left: 0.32in; }
+footer li { break-inside: avoid; margin-bottom: 0.03in; }
+</style></head>
+<body><div class="poster">
+
+<header>
+  <div class="seal"><img src="assets/honors_seal.png" alt="Marist University Honors Program seal"></div>
+  <div class="titles">
+    <h1>Post-Quantum Cryptography in Practice</h1>
+    <div class="sub">Benchmarking, Protocol Integration, and Migration Strategy for Real Systems</div>
+    <div class="by"><b>Michael Kurilko</b> &nbsp;|&nbsp; Thesis Mentor: Dr. Joseph Kirtland &nbsp;|&nbsp; Marist University Honors Program</div>
+  </div>
+  <div class="lockup"><img src="assets/marist_honors_white.png" alt="Marist University Honors Program"></div>
+</header>
+<div class="band"></div>
+
+<main>
+  <div class="col">
+<section>
+  <h2>Why This Matters</h2>
+  <p class="lead">Every bank login, text message, and software update you trust depends on math problems that today’s computers can’t solve. <b>A large enough quantum computer could solve them.</b></p>
+  <p style="margin-top:0.18in">Public-key cryptography is one of the quiet assumptions behind almost every modern system. It relies on <b>RSA</b> (hard because factoring huge numbers is slow) and <b>ECC</b> (elliptic-curve cryptography, hard for a related reason). Shor’s algorithm would let a quantum computer solve both <span class="cite">[1]</span>.</p>
+  <p>The issue is not that RSA and ECC are “broken” today. It is that their security margin is <b>not future-proof</b>.</p>
+</section>
+
+<section>
+  <h3>The Real Threat: Harvest Now, Decrypt Later</h3>
+  <div class="steps">
+    <div class="step"><div class="k">Today</div><svg viewBox="0 0 64 64" style="width:1.25in;height:1.25in" aria-hidden="true"><rect x="8" y="16" width="48" height="34" rx="4" fill="none" stroke="#1F1F1C" stroke-width="4"/><path d="M8 22 L32 38 L56 22" fill="none" stroke="#1F1F1C" stroke-width="4"/><circle cx="50" cy="14" r="9" fill="#E21737"/></svg><div class="d">An attacker records encrypted traffic</div></div>
+    <div class="step"><div class="k">For Years</div><svg viewBox="0 0 64 64" style="width:1.25in;height:1.25in" aria-hidden="true"><ellipse cx="32" cy="14" rx="22" ry="7" fill="none" stroke="#1F1F1C" stroke-width="4"/><path d="M10 14 V48 Q32 60 54 48 V14" fill="none" stroke="#1F1F1C" stroke-width="4"/><path d="M10 31 Q32 43 54 31" fill="none" stroke="#1F1F1C" stroke-width="4"/></svg><div class="d">They store it and wait</div></div>
+    <div class="step"><div class="k">Q-Day</div><svg viewBox="0 0 64 64" style="width:1.25in;height:1.25in" aria-hidden="true"><ellipse cx="32" cy="32" rx="26" ry="10" fill="none" stroke="#1F1F1C" stroke-width="4"/><ellipse cx="32" cy="32" rx="26" ry="10" fill="none" stroke="#1F1F1C" stroke-width="4" transform="rotate(60 32 32)"/><ellipse cx="32" cy="32" rx="26" ry="10" fill="none" stroke="#1F1F1C" stroke-width="4" transform="rotate(-60 32 32)"/><circle cx="32" cy="32" r="5" fill="#E21737"/></svg><div class="d">A quantum computer unlocks it</div></div>
+  </div>
+  <p class="small" style="margin-top:0.16in">Health records, legal files, financial history, and government data have to stay secret for decades. That makes them targets <i>now</i>, before the hardware even exists.</p>
+</section>
+
+<section class="mosca">
+  <h3 style="text-align:center">Are we already late?</h3>
+  <div class="eq">
+    <div class="term"><div class="v">X</div><div class="l">years the data must stay secret</div></div>
+    <div class="op">+</div>
+    <div class="term"><div class="v">Y</div><div class="l">years it takes to migrate</div></div>
+    <div class="op">&gt;</div>
+    <div class="term"><div class="v red">Z</div><div class="l">years until quantum breaks RSA</div></div>
+  </div>
+  <p class="small" style="text-align:center">If this is true, the data is already at risk <span class="cite">[2]</span>. Breaking <span class="nw">RSA-2048</span> still needs millions of qubits <span class="cite">[3]</span>, but waiting for a precise “break date” is a poor systems strategy.</p>
+</section>
+
+<section class="rq">
+  <h3>Research Question</h3>
+  <p>How can NIST’s new post-quantum algorithms be integrated into real application workflows while keeping performance and deployment risk manageable?</p>
+</section>
+
+<section class="voice">
+  <h3>Why I Chose This</h3>
+  <p>I wanted something that blended math and computer science, and post-quantum cryptography stood out because it has both deep theory and real-world urgency.</p>
+  <p>The biggest thing I learned is that adoption is not as simple as picking a new algorithm and replacing the old one. Successful migration depends on <b>measured tradeoffs, phased rollout,</b> and <b>crypto-agile design</b>.</p>
+</section>
+</div>
+  <div class="col">
+<section>
+  <h2>The New Math</h2>
+  <p>In 2024, NIST standardized quantum-resistant replacements: <b><span class="nw">ML-KEM</span></b> for setting up shared keys <span class="cite">[4]</span> and <b><span class="nw">ML-DSA</span></b> for digital signatures <span class="cite">[5]</span>. Both are built on <b>lattices</b>.</p>
+</section>
+
+<section>
+  <h3>Lattices: Finding a Shortcut in a Giant City</h3>
+  <div style="display:grid;grid-template-columns:5.5in 1fr;gap:0.28in;align-items:center;margin-top:0.08in">
+    <div><svg viewBox="0 0 560 360" width="100%" role="img" aria-label="Two-dimensional lattice with a hidden short vector" font-family="Helvetica Neue, Arial, sans-serif"><rect x="0" y="0" width="560" height="360" rx="10" fill="#F4F2EE"/><circle cx="20.0" cy="40.0" r="5" fill="#B9B5AC"/><circle cx="20.0" cy="140.0" r="5" fill="#B9B5AC"/><circle cx="40.0" cy="100.0" r="5" fill="#B9B5AC"/><circle cx="60.0" cy="60.0" r="5" fill="#B9B5AC"/><circle cx="80.0" cy="20.0" r="5" fill="#B9B5AC"/><circle cx="20.0" cy="240.0" r="5" fill="#B9B5AC"/><circle cx="40.0" cy="200.0" r="5" fill="#B9B5AC"/><circle cx="60.0" cy="160.0" r="5" fill="#B9B5AC"/><circle cx="80.0" cy="120.0" r="5" fill="#B9B5AC"/><circle cx="100.0" cy="80.0" r="5" fill="#B9B5AC"/><circle cx="120.0" cy="40.0" r="5" fill="#B9B5AC"/><circle cx="20.0" cy="340.0" r="5" fill="#B9B5AC"/><circle cx="40.0" cy="300.0" r="5" fill="#B9B5AC"/><circle cx="60.0" cy="260.0" r="5" fill="#B9B5AC"/><circle cx="80.0" cy="220.0" r="5" fill="#B9B5AC"/><circle cx="100.0" cy="180.0" r="5" fill="#B9B5AC"/><circle cx="120.0" cy="140.0" r="5" fill="#B9B5AC"/><circle cx="140.0" cy="100.0" r="5" fill="#B9B5AC"/><circle cx="160.0" cy="60.0" r="5" fill="#B9B5AC"/><circle cx="180.0" cy="20.0" r="5" fill="#B9B5AC"/><circle cx="80.0" cy="320.0" r="5" fill="#B9B5AC"/><circle cx="100.0" cy="280.0" r="5" fill="#B9B5AC"/><circle cx="120.0" cy="240.0" r="5" fill="#B9B5AC"/><circle cx="140.0" cy="200.0" r="5" fill="#B9B5AC"/><circle cx="160.0" cy="160.0" r="5" fill="#B9B5AC"/><circle cx="180.0" cy="120.0" r="5" fill="#B9B5AC"/><circle cx="200.0" cy="80.0" r="5" fill="#B9B5AC"/><circle cx="220.0" cy="40.0" r="5" fill="#B9B5AC"/><circle cx="120.0" cy="340.0" r="5" fill="#B9B5AC"/><circle cx="140.0" cy="300.0" r="5" fill="#B9B5AC"/><circle cx="160.0" cy="260.0" r="5" fill="#B9B5AC"/><circle cx="180.0" cy="220.0" r="5" fill="#B9B5AC"/><circle cx="200.0" cy="180.0" r="5" fill="#B9B5AC"/><circle cx="220.0" cy="140.0" r="5" fill="#B9B5AC"/><circle cx="240.0" cy="100.0" r="5" fill="#B9B5AC"/><circle cx="260.0" cy="60.0" r="5" fill="#B9B5AC"/><circle cx="280.0" cy="20.0" r="5" fill="#B9B5AC"/><circle cx="180.0" cy="320.0" r="5" fill="#B9B5AC"/><circle cx="200.0" cy="280.0" r="5" fill="#B9B5AC"/><circle cx="220.0" cy="240.0" r="5" fill="#B9B5AC"/><circle cx="260.0" cy="160.0" r="5" fill="#B9B5AC"/><circle cx="280.0" cy="120.0" r="5" fill="#B9B5AC"/><circle cx="300.0" cy="80.0" r="5" fill="#B9B5AC"/><circle cx="320.0" cy="40.0" r="5" fill="#B9B5AC"/><circle cx="220.0" cy="340.0" r="5" fill="#B9B5AC"/><circle cx="240.0" cy="300.0" r="5" fill="#B9B5AC"/><circle cx="260.0" cy="260.0" r="5" fill="#B9B5AC"/><circle cx="280.0" cy="220.0" r="5" fill="#B9B5AC"/><circle cx="300.0" cy="180.0" r="5" fill="#B9B5AC"/><circle cx="320.0" cy="140.0" r="5" fill="#B9B5AC"/><circle cx="340.0" cy="100.0" r="5" fill="#B9B5AC"/><circle cx="360.0" cy="60.0" r="5" fill="#B9B5AC"/><circle cx="380.0" cy="20.0" r="5" fill="#B9B5AC"/><circle cx="280.0" cy="320.0" r="5" fill="#B9B5AC"/><circle cx="300.0" cy="280.0" r="5" fill="#B9B5AC"/><circle cx="320.0" cy="240.0" r="5" fill="#B9B5AC"/><circle cx="340.0" cy="200.0" r="5" fill="#B9B5AC"/><circle cx="360.0" cy="160.0" r="5" fill="#B9B5AC"/><circle cx="380.0" cy="120.0" r="5" fill="#B9B5AC"/><circle cx="400.0" cy="80.0" r="5" fill="#B9B5AC"/><circle cx="420.0" cy="40.0" r="5" fill="#B9B5AC"/><circle cx="320.0" cy="340.0" r="5" fill="#B9B5AC"/><circle cx="340.0" cy="300.0" r="5" fill="#B9B5AC"/><circle cx="360.0" cy="260.0" r="5" fill="#B9B5AC"/><circle cx="380.0" cy="220.0" r="5" fill="#B9B5AC"/><circle cx="400.0" cy="180.0" r="5" fill="#B9B5AC"/><circle cx="420.0" cy="140.0" r="5" fill="#B9B5AC"/><circle cx="440.0" cy="100.0" r="5" fill="#B9B5AC"/><circle cx="460.0" cy="60.0" r="5" fill="#B9B5AC"/><circle cx="480.0" cy="20.0" r="5" fill="#B9B5AC"/><circle cx="380.0" cy="320.0" r="5" fill="#B9B5AC"/><circle cx="400.0" cy="280.0" r="5" fill="#B9B5AC"/><circle cx="420.0" cy="240.0" r="5" fill="#B9B5AC"/><circle cx="440.0" cy="200.0" r="5" fill="#B9B5AC"/><circle cx="460.0" cy="160.0" r="5" fill="#B9B5AC"/><circle cx="480.0" cy="120.0" r="5" fill="#B9B5AC"/><circle cx="500.0" cy="80.0" r="5" fill="#B9B5AC"/><circle cx="520.0" cy="40.0" r="5" fill="#B9B5AC"/><circle cx="420.0" cy="340.0" r="5" fill="#B9B5AC"/><circle cx="440.0" cy="300.0" r="5" fill="#B9B5AC"/><circle cx="460.0" cy="260.0" r="5" fill="#B9B5AC"/><circle cx="480.0" cy="220.0" r="5" fill="#B9B5AC"/><circle cx="500.0" cy="180.0" r="5" fill="#B9B5AC"/><circle cx="520.0" cy="140.0" r="5" fill="#B9B5AC"/><circle cx="540.0" cy="100.0" r="5" fill="#B9B5AC"/><circle cx="480.0" cy="320.0" r="5" fill="#B9B5AC"/><circle cx="500.0" cy="280.0" r="5" fill="#B9B5AC"/><circle cx="520.0" cy="240.0" r="5" fill="#B9B5AC"/><circle cx="540.0" cy="200.0" r="5" fill="#B9B5AC"/><circle cx="520.0" cy="340.0" r="5" fill="#B9B5AC"/><circle cx="540.0" cy="300.0" r="5" fill="#B9B5AC"/><line x1="240.0" y1="200.0" x2="373.1" y2="124.0" stroke="#505046" stroke-width="4" stroke-linecap="round"/><path d="M380.0,120.0 L370.9,133.2 L364.0,121.1 Z" fill="#505046"/><line x1="240.0" y1="200.0" x2="432.8" y2="103.6" stroke="#505046" stroke-width="4" stroke-linecap="round"/><path d="M440.0,100.0 L430.2,112.7 L424.0,100.2 Z" fill="#505046"/><line x1="240.0" y1="200.0" x2="272.8" y2="216.4" stroke="#E21737" stroke-width="6" stroke-linecap="round"/><path d="M280.0,220.0 L264.0,219.8 L270.2,207.3 Z" fill="#E21737"/><circle cx="240.0" cy="200.0" r="8" fill="#1F1F1C"/><text x="434.0" y="80.0" font-size="22" fill="#505046" font-weight="700" text-anchor="end" stroke="#F4F2EE" stroke-width="8" paint-order="stroke" stroke-linejoin="round">long public directions</text><text x="294.0" y="250.0" font-size="22" fill="#E21737" font-weight="700" text-anchor="start" stroke="#F4F2EE" stroke-width="8" paint-order="stroke" stroke-linejoin="round">hidden short path</text></svg></div>
+    <p style="font-size:24pt;line-height:1.28">Imagine being dropped into a city with millions of nearly identical streets and asked to find one tiny shortcut with a noisy map. In 2D it’s manageable. In <b>512 dimensions</b> (what <span class="nw">ML-KEM-512</span> uses), it becomes computationally hard, even for a quantum computer.</p>
+  </div>
+</section>
+
+<section>
+  <h3>Learning With Errors: Equations With Noise</h3>
+  <div class="eqs">
+    <div class="eqbox"><div class="k">Without noise</div><div class="m">3x + 2y = 12<br>x + 4y = 14</div><div class="r">x = 2, y = 3 ✓ easy</div></div>
+    <div class="eqbox"><div class="k">With a little noise</div><div class="m">3x + 2y ≈ 13<br>x + 4y ≈ 13</div><div class="r red">Which one is off? ✗ hard</div></div>
+  </div>
+  <p style="margin-top:0.16in">Add a small random error to every equation and scale up to hundreds of unknowns, and recovering the secret becomes hard. That “structured equations + controlled error” idea is the core of <span class="nw">ML-KEM</span> and <span class="nw">ML-DSA</span> <span class="cite">[6]</span>.</p>
+</section>
+
+<section>
+  <h3>How a Quantum-Safe Handshake Works</h3>
+  <div class="flow">
+    <div class="fstep"><div class="ic"><svg viewBox="0 0 64 64" style="width:0.85in;height:0.85in" aria-hidden="true"><rect x="12" y="28" width="40" height="30" rx="5" fill="#1F1F1C"/><path d="M20 28 V18 A12 12 0 0 1 44 18 V12" fill="none" stroke="#1F1F1C" stroke-width="5" stroke-linecap="round"/></svg></div><div class="tx"><b class="n">1. Key generation.</b> Your device makes an open padlock (public key) and keeps the only key (private key).</div></div>
+    <div class="fstep"><div class="ic"><svg viewBox="0 0 64 64" style="width:0.85in;height:0.85in" aria-hidden="true"><rect x="8" y="22" width="48" height="34" rx="3" fill="none" stroke="#1F1F1C" stroke-width="4"/><path d="M8 22 L32 10 L56 22" fill="none" stroke="#1F1F1C" stroke-width="4"/><rect x="26" y="32" width="12" height="14" rx="2" fill="#E21737"/></svg></div><div class="tx"><b class="n">2. Encapsulation.</b> The server locks a random secret in a box with your padlock and sends it back.</div></div>
+    <div class="fstep"><div class="ic"><svg viewBox="0 0 64 64" style="width:0.85in;height:0.85in" aria-hidden="true"><circle cx="20" cy="32" r="11" fill="none" stroke="#1F1F1C" stroke-width="5"/><path d="M31 32 H58 M50 32 V42 M42 32 V40" stroke="#1F1F1C" stroke-width="5" stroke-linecap="round"/></svg></div><div class="tx"><b class="n">3. Decapsulation.</b> You unlock it. Both sides now share a secret that was never sent in the open.</div></div>
+  </div>
+</section>
+
+<section>
+  <h3>Hybrid Mode: Belt and Suspenders</h3>
+  <div class="hybrid">
+    <div class="chip" style="background:#2B7BB9">ECC secret</div><div class="plus">+</div>
+    <div class="chip" style="background:#D0112B"><span class="nw">ML-KEM</span> secret</div><div class="plus">→</div>
+    <div class="chip" style="background:#8B3D9A">one session key</div>
+  </div>
+  <p>Combining a classical and a post-quantum secret means security does not rely on only one assumption. An attacker would have to break <b>both</b>.</p>
+</section>
+
+<section>
+  <h3>Words to Know</h3>
+  <div class="gloss">
+    <div><b>Handshake:</b> the setup step where two devices agree on a secret before talking.</div>
+    <div><b>Signature:</b> proof that data came from the claimed sender and wasn’t changed.</div>
+    <div><b>Latency:</b> how long one operation takes (lower is better).</div>
+    <div><b>Throughput:</b> useful work done per second (higher is better).</div>
+  </div>
+</section>
+</div>
+  <div class="col">
+<section>
+  <h2>What I Built</h2>
+  <p>A reproducible Python benchmarking framework that runs the same workloads with <b><span class="nw">RSA-2048</span>, <span class="nw">ECC (P-256)</span>, <span class="nw">ML-KEM-512</span>, <span class="nw">ML-DSA-44</span>,</b> and a <b>Hybrid (ECC + <span class="nw">ML-KEM</span>)</b> handshake.</p>
+  <div class="layers">
+    <div class="layer"><div class="nm">Workload layer<span>Does it matter in real work?</span></div><div class="ct">Secure messaging sessions · chunked file transfer · TLS-style handshakes</div></div>
+    <div class="layer"><div class="nm">Benchmark layer<span>Can it be reproduced?</span></div><div class="ct">Latency · throughput · bytes sent · memory, exported to CSV</div></div>
+    <div class="layer crypto"><div class="nm">Crypto layer<span>Plug-and-play algorithms</span></div><div class="ct">One shared interface, so algorithms swap <b>without rewriting the app</b></div></div>
+  </div>
+  <p class="small" style="margin-top:0.14in">That separation is a working model of <b>crypto-agility</b>, the design property real systems need to migrate safely.</p>
+</section>
+
+<section>
+  <h2>Results: The Handshake</h2>
+  <div class="stats">
+    <div class="stat good"><div class="v">3.8×</div><div class="l">faster key exchange with <span class="nw">ML-KEM</span> than ECC</div></div>
+    <div class="stat cost"><div class="v">4.4×</div><div class="l">more data sent per handshake</div></div>
+    <div class="stat cost"><div class="v">288×</div><div class="l">slower: RSA vs. ECC, the legacy baseline</div></div>
+  </div>
+  <div class="figcap" style="margin-top:0.24in">Time per handshake <span>(lower is better)</span></div>
+  <svg viewBox="0 0 800 300" width="100%" role="img" aria-label="Handshake time per algorithm" font-family="Helvetica Neue, Arial, sans-serif"><line x1="150.0" y1="8" x2="150.0" y2="264" stroke="#D9D7D5" stroke-width="1.5"/><text x="150.0" y="292.0" font-size="21" fill="#77756C" font-weight="400" text-anchor="middle" >0.0 ms</text><line x1="300.0" y1="8" x2="300.0" y2="264" stroke="#D9D7D5" stroke-width="1.5"/><text x="300.0" y="292.0" font-size="21" fill="#77756C" font-weight="400" text-anchor="middle" >0.1 ms</text><line x1="450.0" y1="8" x2="450.0" y2="264" stroke="#D9D7D5" stroke-width="1.5"/><text x="450.0" y="292.0" font-size="21" fill="#77756C" font-weight="400" text-anchor="middle" >0.2 ms</text><line x1="600.0" y1="8" x2="600.0" y2="264" stroke="#D9D7D5" stroke-width="1.5"/><text x="600.0" y="292.0" font-size="21" fill="#77756C" font-weight="400" text-anchor="middle" >0.3 ms</text><text x="136.0" y="48.4" font-size="25" fill="#1F1F1C" font-weight="700" text-anchor="end" >RSA</text><path d="M150.0,21.0 H666.0 Q670.0,21.0 670.0,25.0 V55.0 Q670.0,59.0 666.0,59.0 H150.0 Z" fill="#A08A6E"/><path d="M554,16.0 L566,64.0" stroke="#FFFFFF" stroke-width="6"/><path d="M568,16.0 L580,64.0" stroke="#FFFFFF" stroke-width="6"/><text x="164.0" y="48.4" font-size="23" fill="#FFFFFF" font-weight="700" text-anchor="start" >56.2 ms · 288× slower than ECC</text><text x="136.0" y="112.4" font-size="25" fill="#1F1F1C" font-weight="700" text-anchor="end" >ECC</text><path d="M150.0,85.0 H438.4 Q442.4,85.0 442.4,89.0 V119.0 Q442.4,123.0 438.4,123.0 H150.0 Z" fill="#2B7BB9"/><text x="454.4" y="112.4" font-size="23" fill="#1F1F1C" font-weight="400" text-anchor="start" >0.195 ms</text><text x="136.0" y="176.4" font-size="25" fill="#1F1F1C" font-weight="700" text-anchor="end" >ML-KEM</text><path d="M150.0,149.0 H223.3 Q227.3,149.0 227.3,153.0 V183.0 Q227.3,187.0 223.3,187.0 H150.0 Z" fill="#D0112B"/><text x="239.3" y="176.4" font-size="23" fill="#1F1F1C" font-weight="700" text-anchor="start" >0.052 ms  (3.8× faster)</text><text x="136.0" y="240.4" font-size="25" fill="#1F1F1C" font-weight="700" text-anchor="end" >Hybrid</text><path d="M150.0,213.0 H522.5 Q526.5,213.0 526.5,217.0 V247.0 Q526.5,251.0 522.5,251.0 H150.0 Z" fill="#8B3D9A"/><text x="538.5" y="240.4" font-size="23" fill="#1F1F1C" font-weight="400" text-anchor="start" >0.251 ms</text></svg>
+  <div class="figcap" style="margin-top:0.12in">Data sent per handshake <span>(lower is better)</span></div>
+  <svg viewBox="0 0 800 300" width="100%" role="img" aria-label="Bytes sent per handshake" font-family="Helvetica Neue, Arial, sans-serif"><line x1="150.0" y1="8" x2="150.0" y2="264" stroke="#D9D7D5" stroke-width="1.5"/><text x="150.0" y="292.0" font-size="21" fill="#77756C" font-weight="400" text-anchor="middle" >0 B</text><line x1="257.5" y1="8" x2="257.5" y2="264" stroke="#D9D7D5" stroke-width="1.5"/><text x="257.5" y="292.0" font-size="21" fill="#77756C" font-weight="400" text-anchor="middle" >500 B</text><line x1="365.0" y1="8" x2="365.0" y2="264" stroke="#D9D7D5" stroke-width="1.5"/><text x="365.0" y="292.0" font-size="21" fill="#77756C" font-weight="400" text-anchor="middle" >1,000 B</text><line x1="472.5" y1="8" x2="472.5" y2="264" stroke="#D9D7D5" stroke-width="1.5"/><text x="472.5" y="292.0" font-size="21" fill="#77756C" font-weight="400" text-anchor="middle" >1,500 B</text><line x1="580.0" y1="8" x2="580.0" y2="264" stroke="#D9D7D5" stroke-width="1.5"/><text x="580.0" y="292.0" font-size="21" fill="#77756C" font-weight="400" text-anchor="middle" >2,000 B</text><text x="136.0" y="48.4" font-size="25" fill="#1F1F1C" font-weight="700" text-anchor="end" >RSA</text><path d="M150.0,21.0 H298.0 Q302.0,21.0 302.0,25.0 V55.0 Q302.0,59.0 298.0,59.0 H150.0 Z" fill="#A08A6E"/><text x="314.0" y="48.4" font-size="23" fill="#1F1F1C" font-weight="400" text-anchor="start" >707 B  (2.0×)</text><text x="136.0" y="112.4" font-size="25" fill="#1F1F1C" font-weight="700" text-anchor="end" >ECC</text><path d="M150.0,85.0 H222.5 Q226.5,85.0 226.5,89.0 V119.0 Q226.5,123.0 222.5,123.0 H150.0 Z" fill="#2B7BB9"/><text x="238.5" y="112.4" font-size="23" fill="#1F1F1C" font-weight="400" text-anchor="start" >356 B</text><text x="136.0" y="176.4" font-size="25" fill="#1F1F1C" font-weight="700" text-anchor="end" >ML-KEM</text><path d="M150.0,149.0 H483.1 Q487.1,149.0 487.1,153.0 V183.0 Q487.1,187.0 483.1,187.0 H150.0 Z" fill="#D0112B"/><text x="499.1" y="176.4" font-size="23" fill="#1F1F1C" font-weight="700" text-anchor="start" >1,568 B  (4.4×)</text><text x="136.0" y="240.4" font-size="25" fill="#1F1F1C" font-weight="700" text-anchor="end" >Hybrid</text><path d="M150.0,213.0 H563.1 Q567.1,213.0 567.1,217.0 V247.0 Q567.1,251.0 563.1,251.0 H150.0 Z" fill="#8B3D9A"/><text x="579.1" y="240.4" font-size="23" fill="#1F1F1C" font-weight="400" text-anchor="start" >1,940 B  (5.4×)</text></svg>
+  <p class="callout" style="margin-top:0.16in">If classical handshakes are a postcard, post-quantum ones are a padded envelope. One envelope is fine, but <b>millions per day</b> change cost on mobile and edge networks <span class="cite">[8]</span>.</p>
+</section>
+
+<section>
+  <h3>Limits &amp; Next Steps</h3>
+  <p class="small">These results come from one framework and one host machine. Next: larger runs with confidence intervals, mobile and IoT hardware, certificate (PKI) chains, and dedicated lattice hardware accelerators <span class="cite">[9]</span>.</p>
+</section>
+</div>
+  <div class="col">
+<section>
+  <h2>Results: Real Workloads</h2>
+  <p><b>Once a session is reused, the post-quantum handshake is under 1% of the work.</b> RSA’s handshakes eat <b>16%</b> of all messaging time.</p>
+  <div class="figcap" style="margin-top:0.14in">Share of total messaging time spent on handshakes <span>(1,000 sessions)</span></div>
+  <svg viewBox="0 0 800 358" width="100%" role="img" aria-label="Share of messaging session time spent on handshake" font-family="Helvetica Neue, Arial, sans-serif"><text x="574.0" y="24.0" font-size="20" fill="#77756C" font-weight="700" text-anchor="start" >messages / sec</text><text x="136.0" y="70.2" font-size="25" fill="#1F1F1C" font-weight="700" text-anchor="end" >RSA</text><rect x="217.7" y="40" width="332.3" height="42" rx="4" fill="#E6E3DD"/><rect x="150" y="40" width="65.7" height="42" fill="#A08A6E"/><text x="229.7" y="70.2" font-size="24" fill="#1F1F1C" font-weight="700" text-anchor="start" >16.4%</text><text x="574.0" y="70.2" font-size="25" fill="#1F1F1C" font-weight="700" text-anchor="start" >16,622</text><text x="136.0" y="140.2" font-size="25" fill="#1F1F1C" font-weight="700" text-anchor="end" >ECC</text><rect x="155.0" y="110" width="395.0" height="42" rx="4" fill="#E6E3DD"/><rect x="150" y="110" width="3.0" height="42" fill="#2B7BB9"/><text x="167.0" y="140.2" font-size="24" fill="#1F1F1C" font-weight="700" text-anchor="start" >0.11%</text><text x="574.0" y="140.2" font-size="25" fill="#1F1F1C" font-weight="700" text-anchor="start" >19,962</text><text x="136.0" y="210.2" font-size="25" fill="#1F1F1C" font-weight="700" text-anchor="end" >ML-KEM</text><rect x="155.0" y="180" width="395.0" height="42" rx="4" fill="#E6E3DD"/><rect x="150" y="180" width="3.0" height="42" fill="#D0112B"/><text x="167.0" y="210.2" font-size="24" fill="#1F1F1C" font-weight="700" text-anchor="start" >0.03%</text><text x="574.0" y="210.2" font-size="25" fill="#1F1F1C" font-weight="700" text-anchor="start" >19,751</text><text x="136.0" y="280.2" font-size="25" fill="#1F1F1C" font-weight="700" text-anchor="end" >Hybrid</text><rect x="155.0" y="250" width="395.0" height="42" rx="4" fill="#E6E3DD"/><rect x="150" y="250" width="3.0" height="42" fill="#8B3D9A"/><text x="167.0" y="280.2" font-size="24" fill="#1F1F1C" font-weight="700" text-anchor="start" >0.14%</text><text x="574.0" y="280.2" font-size="25" fill="#1F1F1C" font-weight="700" text-anchor="start" >19,878</text><rect x="150" y="326" width="22" height="22" fill="#505046"/><text x="180.0" y="344.0" font-size="21" fill="#505046" font-weight="400" text-anchor="start" >handshake (setup)</text><rect x="375" y="326" width="22" height="22" rx="3" fill="#E6E3DD"/><text x="405.0" y="344.0" font-size="21" fill="#505046" font-weight="400" text-anchor="start" >sending messages</text></svg>
+  <p class="small" style="margin-top:0.08in">File transfer: all four land within <b>0.4 Mbps</b> of each other (~42 Mbps), less than normal run-to-run noise; Hybrid is only <b>0.20%</b> slower than ECC despite bigger handshakes.</p>
+</section>
+
+<section>
+  <h3>Signatures: <span class="nw">ML-DSA</span> vs. ECDSA</h3>
+  <div class="stats" style="margin-top:0.1in">
+    <div class="stat good"><div class="v">1.0×</div><div class="l">verify time: same speed as today</div></div>
+    <div class="stat cost"><div class="v">8.5×</div><div class="l">slower to sign</div></div>
+    <div class="stat cost"><div class="v">34×</div><div class="l">larger signature</div><div class="s">71 B → 2,420 B</div></div>
+  </div>
+  <p class="small" style="margin-top:0.14in"><b>Checking a signature costs about the same as today.</b> The real price is size: every signature, certificate, and update gets bigger.</p>
+</section>
+
+<section>
+  <h2>Migration Roadmap</h2>
+  <div class="road">
+    <div class="phase"><div class="num">0</div><div><div class="pt">Inventory &amp; baseline</div><div class="pd">Map where RSA/ECC are used and record today’s metrics.</div><div class="gate">Gate: baseline telemetry is complete and reproducible</div></div></div>
+    <div class="phase"><div class="num">1</div><div><div class="pt">Crypto-agility refactor</div><div class="pd">Make algorithms swappable at the interface.</div><div class="gate">Gate: swaps need no application rewrites</div></div></div>
+    <div class="phase hot"><div class="num">2</div><div><div class="pt">Targeted hybrid deployment</div><div class="pd">Hybrid first on long-lived, high-value channels.</div><div class="gate">Gate: error rates and latency stay in budget</div></div></div>
+    <div class="phase hot"><div class="num">3</div><div><div class="pt">Post-quantum preferred</div><div class="pd">Default to PQ where support is stable, keep fallback.</div><div class="gate">Gate: stable in production, interoperable</div></div></div>
+    <div class="phase"><div class="num">4</div><div><div class="pt">Governance &amp; re-testing</div><div class="pd">Enforce crypto policy in <span class="nw">CI/CD</span>; re-benchmark over time.</div></div></div>
+  </div>
+</section>
+
+<section class="take">
+  <h3>The Takeaway</h3>
+  <p>The quantum transition should be treated as a systems engineering program, not only a cryptographic substitution task.</p>
+</section>
+</div>
+</main>
+
+<footer>
+  <div>
+    <h3>Acknowledgements</h3>
+    <p class="ack">I would like to thank my Honors Thesis advisor, <b>Dr. Joseph Kirtland</b>, for his continuous support on this project, from explaining the core mathematical theory to helping me shape and refine the paper direction.</p>
+  </div>
+  <div>
+    <h3>References</h3>
+    <ol>
+      <li>P. W. Shor, “Algorithms for quantum computation: discrete logarithms and factoring,” <i>Proc. 35th FOCS</i>, IEEE, 1994.</li>
+      <li>M. Mosca, “Cybersecurity in an era with quantum computers: Will we be ready?” <i>IEEE Security &amp; Privacy</i>, 2018.</li>
+      <li>C. Gidney and M. Ekerå, “How to factor 2048 bit RSA integers in 8 hours using 20 million noisy qubits,” <i>Quantum</i>, 2021.</li>
+      <li>NIST, <i>FIPS 203: Module-Lattice-Based Key-Encapsulation Mechanism Standard</i>, 2024.</li>
+      <li>NIST, <i>FIPS 204: Module-Lattice-Based Digital Signature Standard</i>, 2024.</li>
+      <li>G. Chhetri et al., “Post-quantum cryptography and quantum-safe security: A comprehensive survey,” arXiv:2510.10436, 2025.</li>
+      <li>M. Abbasi et al., “A practical performance benchmark of post-quantum cryptography across heterogeneous computing environments,” <i>Cryptography</i>, 2025.</li>
+      <li>O. Alnaseri et al., “Complexity of post-quantum cryptography in embedded systems and its optimization strategies,” <i>IWCMC</i>, IEEE, 2025.</li>
+      <li>H. Yan et al., “Lattice-based cryptographic accelerators for the post-quantum era,” <i>Electronics</i>, 2026.</li>
+    </ol>
+  </div>
+</footer>
+
+</div></body></html>

@@ -1,35 +1,35 @@
 # Initial Findings
 
 ## Key Exchange
-- Fastest mean handshake latency: **ML-KEM (KYBER)** (0.046813 ms).
+- Fastest mean handshake latency: **ML-KEM (KYBER)** (0.051552 ms).
 - Smallest handshake payload: **ECDH** (356.0 bytes).
-- RSA latency overhead vs fastest: **1039.4x**.
+- RSA latency overhead vs fastest: **1089.8x**.
 
 ## Signatures
-- Fastest signing: **ECDSA** (0.031333 ms).
-- Fastest verification: **ML-DSA (Dilithium)** (0.001333 ms).
+- Fastest signing: **ECDSA** (0.019186 ms).
+- Fastest verification: **ECDSA** (0.040409 ms).
 - Smallest signatures: **ECDSA** (71.0 bytes).
-- ML-DSA verification speedup vs ECDSA: **46.9x**.
+- ML-DSA verification speedup vs ECDSA: **1.0x**.
 - ML-DSA signature-size overhead vs ECDSA: **34.1x**.
 
 ## Messaging
-- Best throughput: **KYBER** (21137.0 msgs/s).
-- Lowest handshake latency in messaging loop: **KYBER** (0.089166 ms).
-- RSA handshake overhead vs best messaging handshake: **210.7x**.
+- Best throughput: **ECC** (19962.1 msgs/s).
+- Lowest handshake latency in messaging loop: **KYBER** (0.092393 ms).
+- RSA handshake overhead vs best messaging handshake: **639.9x**.
 
 ## File Transfer
-- Highest throughput: **ECC** (44.066 Mbps).
-- Lowest setup latency: **KYBER** (0.093250 ms).
-- Throughput spread across algorithms is narrow: **0.606 Mbps**.
-- Hybrid KEX latency: **0.243000 ms**.
+- Highest throughput: **RSA** (42.068 Mbps).
+- Lowest setup latency: **KYBER** (0.094695 ms).
+- Throughput spread across algorithms is narrow: **0.429 Mbps**.
+- Hybrid KEX latency: **0.251002 ms**.
 - Hybrid KEX payload: **1940.0 bytes**.
-- Hybrid KEX latency vs ECDH: **1.27x**.
+- Hybrid KEX latency vs ECDH: **1.29x**.
 - Hybrid KEX payload vs ECDH: **5.45x**.
 
 ## Hybrid
-- Hybrid handshake latency: **0.253125 ms**.
-- Hybrid latency vs ECC: **0.93x**.
-- Hybrid latency vs KYBER: **4.66x**.
+- Hybrid handshake latency: **0.259276 ms**.
+- Hybrid latency vs ECC: **1.25x**.
+- Hybrid latency vs KYBER: **4.96x**.
 - Hybrid transmission bytes: **1940.0** (sum-like overhead compared with single-scheme handshakes).
 
 ## Recommendation for Paper Figures
