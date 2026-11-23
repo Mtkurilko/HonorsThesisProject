@@ -96,7 +96,7 @@ def rbar(x, y, w, h, fill, r=4):
 
 def svg(w, h, body, label):
     return (f'<svg viewBox="0 0 {w} {h}" width="100%" role="img" aria-label="{label}" '
-            f'font-family="Helvetica Neue, Arial, sans-serif">{body}</svg>')
+            f'font-family="Arial, Helvetica, sans-serif">{body}</svg>')
 
 
 # ---------------------------------------------------------------- charts
@@ -205,8 +205,8 @@ def lattice_svg():
     out.append(arrow(2, -1, RED, 6))
     out.append(f'<circle cx="{cx}" cy="{cy}" r="8" fill="{INK}"/>')
     halo = 'stroke="#F4F2EE" stroke-width="8" paint-order="stroke" stroke-linejoin="round"'
-    out.append(t(cx + 10 * S - 6, cy - 5 * S - 20, "long public directions", 22, INK2, 700, "end", halo))
-    out.append(t(cx + 2 * S + 14, cy + 1 * S + 30, "hidden short path", 22, RED, 700, extra=halo))
+    out.append(t(cx + 10 * S - 6, cy - 5 * S - 20, "long basis vectors", 22, INK2, 700, "end", halo))
+    out.append(t(cx + 2 * S + 14, cy + 1 * S + 30, "short vector", 22, RED, 700, extra=halo))
     return svg(W, H, "".join(out), "Two-dimensional lattice with a hidden short vector")
 
 
@@ -229,7 +229,7 @@ def build_html():
 @page {{ size: 48in 36in; margin: 0; }}
 * {{ box-sizing: border-box; margin: 0; padding: 0; }}
 html, body {{ width: 48in; height: 36in; background: #FFFFFF; }}
-body {{ font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: {INK};
+body {{ font-family: Arial, Helvetica, sans-serif; color: {INK};
         font-size: 28.5pt; line-height: 1.32; -webkit-print-color-adjust: exact; print-color-adjust: exact; }}
 .poster {{ position: relative; width: 48in; height: 36in; overflow: hidden; }}
 
@@ -240,7 +240,7 @@ header {{ position: absolute; left: 0; top: 0; width: 48in; height: 6.35in; back
          align-items: center; justify-content: center; }}
 .seal img {{ width: 5.0in; height: 5.0in; }}
 .titles {{ flex: 1; }}
-.titles h1 {{ font-size: 106pt; line-height: 1.0; font-weight: 700; letter-spacing: -0.5pt; }}
+.titles h1 {{ font-size: 104pt; line-height: 1.0; font-weight: 700; }}
 .titles .sub {{ font-size: 50pt; font-weight: 400; margin-top: 0.16in; line-height: 1.12; }}
 .titles .name {{ font-size: 68pt; font-weight: 700; margin-top: 0.34in; line-height: 1.0; letter-spacing: 0.3pt; }}
 .titles .by {{ font-size: 38pt; margin-top: 0.16in; font-weight: 400; opacity: 0.96; }}
@@ -250,7 +250,7 @@ header {{ position: absolute; left: 0; top: 0; width: 48in; height: 6.35in; back
 .band {{ position: absolute; top: 6.35in; left: 0; width: 48in; height: 0.27in; background: {RULE}; }}
 
 /* body grid */
-main {{ position: absolute; top: 7.05in; left: 0.75in; right: 0.75in; bottom: 3.3in;
+main {{ position: absolute; top: 7.05in; left: 0.75in; right: 0.75in; bottom: 3.42in;
         display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; column-gap: 0.9in; }}
 .col {{ position: relative; display: flex; flex-direction: column; gap: 0.32in; }}
 .nw {{ white-space: nowrap; }}
@@ -258,10 +258,9 @@ main {{ position: absolute; top: 7.05in; left: 0.75in; right: 0.75in; bottom: 3.
 .voice p + p {{ margin-top: 0.12in; }}
 .col + .col::before {{ content: ""; position: absolute; left: -0.45in; top: 0.1in; bottom: 0;
                        width: 2pt; background: {RULE}; }}
-h2 {{ font-size: 62pt; line-height: 1.0; color: {RED}; font-weight: 700; letter-spacing: -0.3pt;
+h2 {{ font-size: 60pt; line-height: 1.0; color: {RED}; font-weight: 700;
       margin-bottom: 0.16in; }}
-h3 {{ font-size: 27pt; color: {INK2}; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4pt;
-      margin-bottom: 0.08in; }}
+h3 {{ font-size: 31pt; color: {INK}; font-weight: 700; margin-bottom: 0.08in; }}
 p + p {{ margin-top: 0.14in; }}
 b, strong {{ font-weight: 700; }}
 .lead {{ font-size: 34pt; line-height: 1.26; }}
@@ -271,26 +270,26 @@ b, strong {{ font-weight: 700; }}
 
 /* hand-made components */
 .steps {{ display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.22in; margin-top: 0.12in; }}
-.step {{ background: {TINT}; border-radius: 0.14in; padding: 0.22in 0.2in 0.24in; text-align: center; }}
-.step .k {{ font-size: 22pt; font-weight: 700; letter-spacing: 1.4pt; color: {RED}; text-transform: uppercase; }}
+.step {{ background: {TINT}; border-radius: 0.04in; padding: 0.22in 0.2in 0.24in; text-align: center; }}
+.step .k {{ font-size: 25pt; font-weight: 700; color: {RED}; }}
 .step .d {{ font-size: 23pt; line-height: 1.22; margin-top: 0.06in; }}
 .step svg {{ display: block; margin: 0.08in auto 0; }}
 
-.mosca {{ border: 3pt solid {INK}; border-radius: 0.16in; padding: 0.26in 0.32in 0.28in; }}
+.mosca {{ border: 3pt solid {INK}; border-radius: 0.04in; padding: 0.26in 0.32in 0.28in; }}
 .eq {{ display: flex; align-items: center; justify-content: center; gap: 0.16in; margin: 0.14in 0 0.12in; }}
 .eq .term {{ text-align: center; }}
 .eq .v {{ font-size: 68pt; font-weight: 700; line-height: 1; }}
 .eq .l {{ font-size: 21pt; line-height: 1.15; color: {INK2}; margin-top: 0.06in; width: 2.75in; }}
-.eq .op {{ font-size: 54pt; font-weight: 300; color: {MUTED}; padding-bottom: 0.45in; }}
+.eq .op {{ font-size: 54pt; font-weight: 400; color: {MUTED}; padding-bottom: 0.45in; }}
 
-.rq {{ background: {INK}; color: #fff; border-radius: 0.16in; padding: 0.32in 0.36in 0.36in; }}
-.rq h3 {{ color: #fff; opacity: 0.75; }}
-.rq p {{ font-size: 33pt; line-height: 1.26; font-weight: 500; }}
+.rq {{ background: {INK}; color: #fff; border-radius: 0.04in; padding: 0.32in 0.36in 0.36in; }}
+.rq h3 {{ color: #fff; }}
+.rq p {{ font-size: 32pt; line-height: 1.26; font-weight: 400; font-style: italic; }}
 
 .eqs {{ display: grid; grid-template-columns: 1fr 1fr; gap: 0.22in; margin-top: 0.14in; }}
-.eqbox {{ background: {TINT}; border-radius: 0.14in; padding: 0.2in 0.24in; }}
-.eqbox .k {{ font-size: 21pt; font-weight: 700; letter-spacing: 1.2pt; text-transform: uppercase; color: {INK2}; }}
-.eqbox .m {{ font-family: "Menlo", "Courier New", monospace; font-size: 28pt; line-height: 1.45; margin: 0.06in 0; }}
+.eqbox {{ background: {TINT}; border-radius: 0.04in; padding: 0.2in 0.24in; }}
+.eqbox .k {{ font-size: 24pt; font-weight: 700; color: {INK2}; }}
+.eqbox .m {{ font-family: "Times New Roman", Times, serif; font-size: 34pt; line-height: 1.35; margin: 0.06in 0; }}
 .eqbox .r {{ font-size: 23pt; font-weight: 700; }}
 
 .flow {{ display: flex; flex-direction: column; gap: 0.16in; margin-top: 0.1in; }}
@@ -301,12 +300,12 @@ b, strong {{ font-weight: 700; }}
 .fstep .tx b.n {{ color: {RED}; }}
 
 .hybrid {{ display: flex; align-items: center; gap: 0.16in; margin: 0.12in 0 0.1in; }}
-.chip {{ border-radius: 0.12in; padding: 0.14in 0.24in; font-size: 24.5pt; font-weight: 700; color: #fff; text-align: center; line-height: 1.15; }}
-.plus {{ font-size: 40pt; color: {MUTED}; font-weight: 300; }}
+.chip {{ border-radius: 0.04in; padding: 0.14in 0.24in; font-size: 24.5pt; font-weight: 700; color: #fff; text-align: center; line-height: 1.15; }}
+.plus {{ font-size: 40pt; color: {MUTED}; font-weight: 400; }}
 
 .layers {{ display: flex; flex-direction: column; gap: 0.1in; margin-top: 0.12in; }}
-.layer {{ display: grid; grid-template-columns: 2.9in 1fr; border-radius: 0.12in; overflow: hidden; }}
-.layer .nm {{ background: {INK2}; color: #fff; font-weight: 700; font-size: 25pt; padding: 0.16in 0.2in; line-height: 1.12; }}
+.layer {{ display: grid; grid-template-columns: 2.9in 1fr; border-radius: 0.04in; overflow: hidden; align-items: stretch; }}
+.layer .nm {{ background: {INK2}; color: #fff; font-weight: 700; font-size: 26pt; padding: 0.16in 0.2in; line-height: 1.12; display: flex; align-items: center; }}
 .layer .nm span {{ display: block; font-weight: 400; font-size: 20pt; opacity: 0.9; margin-top: 0.04in; }}
 .layer .ct {{ background: {TINT}; font-size: 23.5pt; padding: 0.16in 0.22in; line-height: 1.25; }}
 .layer .ct i {{ color: {INK2}; }}
@@ -314,7 +313,7 @@ b, strong {{ font-weight: 700; }}
 
 .stats {{ display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.2in; }}
 .stat {{ border-top: 6pt solid {INK}; padding-top: 0.1in; }}
-.stat .v {{ font-size: 72pt; font-weight: 700; line-height: 1.0; letter-spacing: -1pt; }}
+.stat .v {{ font-size: 68pt; font-weight: 700; line-height: 1.0; }}
 .stat .l {{ font-size: 22.5pt; line-height: 1.22; margin-top: 0.06in; }}
 .stat .s {{ font-size: 21pt; color: {MUTED}; margin-top: 0.04in; }}
 .stat.good {{ border-top-color: {C['ECC']}; }}
@@ -337,185 +336,184 @@ b, strong {{ font-weight: 700; }}
 .phase .pd {{ font-size: 23pt; line-height: 1.25; margin-top: 0.03in; }}
 .phase .gate {{ font-size: 21pt; color: {RED}; font-weight: 700; margin-top: 0.04in; }}
 
-.take {{ background: {RED}; color: #fff; border-radius: 0.16in; padding: 0.3in 0.36in 0.34in; }}
-.take h3 {{ color: #fff; opacity: 0.85; }}
-.take p {{ font-size: 31pt; line-height: 1.26; font-weight: 500; }}
+.take {{ background: {RED}; color: #fff; border-radius: 0.04in; padding: 0.3in 0.36in 0.34in; }}
+.take h3 {{ color: #fff; }}
+.take p {{ font-size: 28pt; line-height: 1.28; font-weight: 400; }}
 
 .gloss {{ display: grid; grid-template-columns: 1fr 1fr; gap: 0.16in 0.34in; margin-top: 0.06in; }}
 .gloss div {{ font-size: 25pt; line-height: 1.26; }}
 .gloss b {{ color: {RED}; }}
 
-footer {{ position: absolute; left: 0.75in; right: 0.75in; bottom: 0.5in; height: 2.55in;
-          border-top: 3pt solid {RULE}; padding-top: 0.2in; display: grid;
+footer {{ position: absolute; left: 0.75in; right: 0.75in; bottom: 0.45in; height: 2.72in;
+          border-top: 3pt solid {RULE}; padding-top: 0.16in; display: grid;
           grid-template-columns: 9.2in 1fr; column-gap: 0.7in; }}
-footer h3 {{ font-size: 22pt; color: {RED}; margin-bottom: 0.06in; }}
+footer h3 {{ font-size: 24pt; color: {RED}; margin-bottom: 0.06in; }}
 footer .ack {{ font-size: 21pt; line-height: 1.3; }}
-footer ol {{ columns: 3; column-gap: 0.45in; font-size: 16pt; line-height: 1.24; color: {INK2}; padding-left: 0.32in; }}
-footer li {{ break-inside: avoid; margin-bottom: 0.03in; }}
+footer ol {{ columns: 3; column-gap: 0.5in; column-fill: balance; font-size: 19pt; line-height: 1.18; color: {INK}; padding-left: 0.4in; }}
+footer li {{ break-inside: avoid; margin-bottom: 0.04in; padding-left: 0.04in; }}
 """
 
     lat = lattice_svg()
 
     col1 = f"""
 <section>
-  <h2>Why This Matters</h2>
-  <p class="lead">Every bank login, text message, and software update you trust depends on math problems that today’s computers can’t solve. <b>A large enough quantum computer could solve them.</b></p>
-  <p style="margin-top:0.18in">Public-key cryptography is one of the quiet assumptions behind almost every modern system. It relies on <b>RSA</b> (hard because factoring huge numbers is slow) and <b>ECC</b> (elliptic-curve cryptography, hard for a related reason). Shor’s algorithm would let a quantum computer solve both <span class="cite">[1]</span>.</p>
-  <p>The issue is not that RSA and ECC are “broken” today. It is that their security margin is <b>not future-proof</b>.</p>
+  <h2>Introduction</h2>
+  <p class="lead">Public-key cryptography is one of the quiet assumptions behind almost every modern system. Online banking, messaging, software updates, and logins all rely on <b>RSA</b> and <b>elliptic-curve cryptography (ECC)</b>.</p>
+  <p style="margin-top:0.18in">RSA is secure because factoring very large numbers is slow, and ECC relies on a related hard problem. A large enough quantum computer running Shor’s algorithm could solve both <span class="cite">[1]</span>. RSA and ECC are not broken today, but their security margin is not future-proof.</p>
 </section>
 
 <section>
-  <h3>The Real Threat: Harvest Now, Decrypt Later</h3>
+  <h3>Harvest Now, Decrypt Later</h3>
   <div class="steps">
-    <div class="step"><div class="k">Today</div>{icon("record")}<div class="d">An attacker records encrypted traffic</div></div>
-    <div class="step"><div class="k">For Years</div>{icon("store")}<div class="d">They store it and wait</div></div>
-    <div class="step"><div class="k">Q-Day</div>{icon("atom")}<div class="d">A quantum computer unlocks it</div></div>
+    <div class="step"><div class="k">Today</div>{icon("record")}<div class="d">Encrypted traffic is recorded</div></div>
+    <div class="step"><div class="k">Stored</div>{icon("store")}<div class="d">The data is kept for years</div></div>
+    <div class="step"><div class="k">Later</div>{icon("atom")}<div class="d">A quantum computer decrypts it</div></div>
   </div>
-  <p class="small" style="margin-top:0.16in">Health records, legal files, financial history, and government data have to stay secret for decades. That makes them targets <i>now</i>, before the hardware even exists.</p>
+  <p class="small" style="margin-top:0.16in">Health, legal, financial, and government records need to stay private for decades, so they are at risk before the hardware even exists.</p>
 </section>
 
 <section class="mosca">
-  <h3 style="text-align:center">Are we already late?</h3>
+  <h3 style="text-align:center">Mosca’s Inequality</h3>
   <div class="eq">
     <div class="term"><div class="v">X</div><div class="l">years the data must stay secret</div></div>
     <div class="op">+</div>
     <div class="term"><div class="v">Y</div><div class="l">years it takes to migrate</div></div>
     <div class="op">&gt;</div>
-    <div class="term"><div class="v red">Z</div><div class="l">years until quantum breaks RSA</div></div>
+    <div class="term"><div class="v red">Z</div><div class="l">years until a quantum break</div></div>
   </div>
-  <p class="small" style="text-align:center">If this is true, the data is already at risk <span class="cite">[2]</span>. Breaking RSA-2048 still needs millions of qubits <span class="cite">[3]</span>, but waiting for a precise “break date” is a poor systems strategy.</p>
+  <p class="small" style="text-align:center">If this is true, the data is already at risk <span class="cite">[2]</span>. Breaking RSA-2048 is still estimated to need millions of qubits <span class="cite">[3]</span>, but waiting for an exact date is a poor plan.</p>
 </section>
 
 <section class="rq">
   <h3>Research Question</h3>
-  <p>How can NIST’s new post-quantum algorithms be integrated into real application workflows while keeping performance and deployment risk manageable?</p>
+  <p>How can NIST-selected post-quantum algorithms be integrated into real application workflows while keeping performance and deployment risk manageable?</p>
 </section>
 
 <section class="voice">
-  <h3>Why I Chose This</h3>
-  <p>I wanted something that blended math and computer science, and post-quantum cryptography stood out because it has both deep theory and real-world urgency.</p>
-  <p>The biggest thing I learned is that adoption is not as simple as picking a new algorithm and replacing the old one. Successful migration depends on <b>measured tradeoffs, phased rollout,</b> and <b>crypto-agile design</b>.</p>
+  <h3>Motivation</h3>
+  <p>I chose this topic after exploring current technology problems that felt both important and genuinely interesting to me. I wanted something that blended math and computer science, and post-quantum cryptography stood out because it has both deep theory and real-world urgency.</p>
+  <p>The biggest thing I learned is that adoption is not as simple as picking a new algorithm and replacing the old one.</p>
 </section>
 """
 
     col2 = f"""
 <section>
-  <h2>The New Math</h2>
-  <p>In 2024, NIST standardized quantum-resistant replacements: <b>ML-KEM</b> for setting up shared keys <span class="cite">[4]</span> and <b>ML-DSA</b> for digital signatures <span class="cite">[5]</span>. Both are built on <b>lattices</b>.</p>
+  <h2>Background</h2>
+  <p>In 2024, NIST published two post-quantum standards: <b>ML-KEM</b> (FIPS 203) for establishing shared keys <span class="cite">[4]</span> and <b>ML-DSA</b> (FIPS 204) for digital signatures <span class="cite">[5]</span>. Both are based on <b>lattices</b>.</p>
 </section>
 
 <section>
-  <h3>Lattices: Finding a Shortcut in a Giant City</h3>
+  <h3>Lattice Problems</h3>
   <div style="display:grid;grid-template-columns:5.5in 1fr;gap:0.28in;align-items:center;margin-top:0.08in">
     <div>{lat}</div>
-    <p style="font-size:24pt;line-height:1.28">Imagine being dropped into a city with millions of nearly identical streets and asked to find one tiny shortcut with a noisy map. In 2D it’s manageable. In <b>512 dimensions</b> (what ML-KEM-512 uses), it becomes computationally hard, even for a quantum computer.</p>
+    <p style="font-size:24pt;line-height:1.28">Imagine being dropped into a city with millions of nearly identical streets and asked to find one tiny shortcut using noisy map coordinates. In 2D this is manageable. In hundreds of dimensions (ML-KEM-512 uses 512), it becomes computationally hard.</p>
   </div>
 </section>
 
 <section>
-  <h3>Learning With Errors: Equations With Noise</h3>
+  <h3>Learning With Errors</h3>
   <div class="eqs">
-    <div class="eqbox"><div class="k">Without noise</div><div class="m">3x + 2y = 12<br>x + 4y = 14</div><div class="r">x = 2, y = 3 ✓ easy</div></div>
-    <div class="eqbox"><div class="k">With a little noise</div><div class="m">3x + 2y ≈ 13<br>x + 4y ≈ 13</div><div class="r red">Which one is off? ✗ hard</div></div>
+    <div class="eqbox"><div class="k">Without noise</div><div class="m">3<i>x</i> + 2<i>y</i> = 12<br><i>x</i> + 4<i>y</i> = 14</div><div class="r">Solution: <i>x</i> = 2, <i>y</i> = 3</div></div>
+    <div class="eqbox"><div class="k">With small errors</div><div class="m">3<i>x</i> + 2<i>y</i> ≈ 13<br><i>x</i> + 4<i>y</i> ≈ 13</div><div class="r red">No exact solution</div></div>
   </div>
-  <p style="margin-top:0.16in">Add a small random error to every equation and scale up to hundreds of unknowns, and recovering the secret becomes hard. That “structured equations + controlled error” idea is the core of ML-KEM and ML-DSA <span class="cite">[6]</span>.</p>
+  <p style="margin-top:0.16in">Each equation has a small random error added. Without the errors the system is easy to solve, but with them, recovering the hidden values becomes hard in high dimensions <span class="cite">[6]</span>.</p>
 </section>
 
 <section>
-  <h3>How a Quantum-Safe Handshake Works</h3>
+  <h3>ML-KEM Key Exchange</h3>
   <div class="flow">
-    <div class="fstep"><div class="ic">{icon("lock_open", 0.85)}</div><div class="tx"><b class="n">1. Key generation.</b> Your device makes an open padlock (public key) and keeps the only key (private key).</div></div>
-    <div class="fstep"><div class="ic">{icon("box", 0.85)}</div><div class="tx"><b class="n">2. Encapsulation.</b> The server locks a random secret in a box with your padlock and sends it back.</div></div>
-    <div class="fstep"><div class="ic">{icon("key", 0.85)}</div><div class="tx"><b class="n">3. Decapsulation.</b> You unlock it. Both sides now share a secret that was never sent in the open.</div></div>
+    <div class="fstep"><div class="ic">{icon("lock_open", 0.85)}</div><div class="tx"><b class="n">1. Key generation.</b> The receiver creates a public key (like an open padlock) and a private key.</div></div>
+    <div class="fstep"><div class="ic">{icon("box", 0.85)}</div><div class="tx"><b class="n">2. Encapsulation.</b> The sender uses the public key to lock up a random shared secret and sends it.</div></div>
+    <div class="fstep"><div class="ic">{icon("key", 0.85)}</div><div class="tx"><b class="n">3. Decapsulation.</b> The receiver uses the private key to recover the same secret.</div></div>
   </div>
 </section>
 
 <section>
-  <h3>Hybrid Mode: Belt and Suspenders</h3>
+  <h3>Hybrid Key Exchange</h3>
   <div class="hybrid">
-    <div class="chip" style="background:{C['ECC']}">ECC secret</div><div class="plus">+</div>
+    <div class="chip" style="background:{C['ECC']}">ECDH secret</div><div class="plus">+</div>
     <div class="chip" style="background:{C['ML-KEM']}">ML-KEM secret</div><div class="plus">→</div>
-    <div class="chip" style="background:{C['HYBRID']}">one session key</div>
+    <div class="chip" style="background:{C['HYBRID']}">session key</div>
   </div>
-  <p>Combining a classical and a post-quantum secret means security does not rely on only one assumption. An attacker would have to break <b>both</b>.</p>
+  <p>The hybrid mode derives the session key from both a classical and a post-quantum secret, so security does not rely on only one assumption.</p>
 </section>
 
 <section>
-  <h3>Words to Know</h3>
+  <h3>Key Terms</h3>
   <div class="gloss">
-    <div><b>Handshake:</b> the setup step where two devices agree on a secret before talking.</div>
-    <div><b>Signature:</b> proof that data came from the claimed sender and wasn’t changed.</div>
-    <div><b>Latency:</b> how long one operation takes (lower is better).</div>
-    <div><b>Throughput:</b> useful work done per second (higher is better).</div>
+    <div><b>Handshake:</b> the setup step where two devices agree on a secret before sending data.</div>
+    <div><b>Signature:</b> proof that data came from the claimed sender and was not modified.</div>
+    <div><b>Latency:</b> time for one operation (lower is better).</div>
+    <div><b>Throughput:</b> work completed per second (higher is better).</div>
   </div>
 </section>
 """
 
     col3 = f"""
 <section>
-  <h2>What I Built</h2>
-  <p>A reproducible Python benchmarking framework that runs the same workloads with <b>RSA-2048, ECC (P-256), ML-KEM-512, ML-DSA-44,</b> and a <b>Hybrid (ECC + ML-KEM)</b> handshake.</p>
+  <h2>Methods</h2>
+  <p>I built a Python benchmarking framework that runs the same tests with <b>RSA-2048, ECC (P-256), ML-KEM-512, ML-DSA-44,</b> and a <b>hybrid ECC + ML-KEM</b> handshake. Each benchmark was repeated 1,000 times.</p>
   <div class="layers">
-    <div class="layer"><div class="nm">Workload layer<span>Does it matter in real work?</span></div><div class="ct">Secure messaging sessions · chunked file transfer · TLS-style handshakes</div></div>
-    <div class="layer"><div class="nm">Benchmark layer<span>Can it be reproduced?</span></div><div class="ct">Latency · throughput · bytes sent · memory, exported to CSV</div></div>
-    <div class="layer crypto"><div class="nm">Crypto layer<span>Plug-and-play algorithms</span></div><div class="ct">One shared interface, so algorithms swap <b>without rewriting the app</b></div></div>
+    <div class="layer"><div class="nm">Workload layer</div><div class="ct">Messaging sessions, file transfer, and TLS-style handshakes</div></div>
+    <div class="layer"><div class="nm">Benchmark layer</div><div class="ct">Latency, throughput, bytes sent, and memory, exported to CSV</div></div>
+    <div class="layer crypto"><div class="nm">Crypto layer</div><div class="ct">One shared interface, so algorithms can be swapped without rewriting the application</div></div>
   </div>
-  <p class="small" style="margin-top:0.14in">That separation is a working model of <b>crypto-agility</b>, the design property real systems need to migrate safely.</p>
+  <p class="small" style="margin-top:0.14in">Keeping the layers separate made it possible to test each algorithm without changing the workload code, which is a practical example of crypto-agility.</p>
 </section>
 
 <section>
-  <h2>Results: The Handshake</h2>
+  <h2>Results: Key Exchange</h2>
   <div class="stats">
-    <div class="stat good"><div class="v">{kem_speedup:.1f}×</div><div class="l">faster key exchange with ML-KEM than ECC</div></div>
-    <div class="stat cost"><div class="v">{kem_bytes_x:.1f}×</div><div class="l">more data sent per handshake</div></div>
-    <div class="stat cost"><div class="v">{rsa_x:.0f}×</div><div class="l">slower: RSA vs. ECC (new key every time)</div></div>
+    <div class="stat good"><div class="v">{kem_speedup:.1f}×</div><div class="l">faster handshake (ML-KEM vs. ECDH)</div></div>
+    <div class="stat cost"><div class="v">{kem_bytes_x:.1f}×</div><div class="l">more bytes sent (ML-KEM vs. ECDH)</div></div>
+    <div class="stat cost"><div class="v">{rsa_x:.0f}×</div><div class="l">slower (RSA vs. ECDH, new key each time)</div></div>
   </div>
-  <div class="figcap" style="margin-top:0.24in">Time per handshake <span>(lower is better)</span></div>
+  <div class="figcap" style="margin-top:0.24in">Figure 1. Time per handshake <span>(lower is better)</span></div>
   {chart_handshake_time()}
-  <div class="figcap" style="margin-top:0.12in">Data sent per handshake <span>(lower is better)</span></div>
+  <div class="figcap" style="margin-top:0.12in">Figure 2. Bytes sent per handshake <span>(lower is better)</span></div>
   {chart_handshake_bytes()}
-  <p class="callout" style="margin-top:0.16in">If classical handshakes are a postcard, post-quantum ones are a padded envelope. One envelope is fine, but <b>millions per day</b> change cost on mobile and edge networks <span class="cite">[8]</span>.</p>
+  <p class="callout" style="margin-top:0.16in">If classical handshakes are like sending a short postcard, post-quantum handshakes are like sending a padded envelope. One envelope is fine, but millions per day change cost and latency, especially on mobile and edge networks <span class="cite">[8]</span>.</p>
 </section>
 
 <section>
-  <h3>Limits &amp; Next Steps</h3>
-  <p class="small">One machine, no real network, simplified message cipher: results compare algorithms, not live systems. Next: network emulation, AES-GCM, ML-KEM-768, and lattice accelerators <span class="cite">[9]</span>.</p>
+  <h3>Limitations</h3>
+  <p class="small">All tests ran on one machine without a real network and used a simplified message cipher, so the results compare algorithms rather than predict a live system. Future work includes network emulation, AES-GCM, ML-KEM-768, and hardware accelerators <span class="cite">[9]</span>.</p>
 </section>
 """
 
     col4 = f"""
 <section>
-  <h2>Results: Real Workloads</h2>
-  <p><b>Once a session is reused, the post-quantum handshake is under 1% of the work.</b> RSA’s handshakes eat <b>{msg_share['RSA']:.0f}%</b> of all messaging time.</p>
-  <div class="figcap" style="margin-top:0.14in">Share of total messaging time spent on handshakes <span>(1,000 sessions)</span></div>
+  <h2>Results: Workloads</h2>
+  <p>With session reuse, post-quantum handshakes took <b>less than 1%</b> of total messaging time, while RSA handshakes took <b>{msg_share['RSA']:.0f}%</b>.</p>
+  <div class="figcap" style="margin-top:0.14in">Figure 3. Share of messaging time spent on handshakes <span>(1,000 sessions)</span></div>
   {chart_session_share()}
-  <p class="small" style="margin-top:0.08in">File transfer: all four land within <b>{ft_spread:.1f} Mbps</b> of each other (~{statistics.mean(ft_tput.values()):.0f} Mbps), less than normal run-to-run noise; Hybrid is only <b>{hyb_ft_drop:.2f}%</b> slower than ECC despite bigger handshakes.</p>
+  <p class="small" style="margin-top:0.08in">File transfer throughput was about {statistics.mean(ft_tput.values()):.0f} Mbps for every algorithm. The {ft_spread:.1f} Mbps spread was smaller than the normal run-to-run variation.</p>
 </section>
 
 <section>
-  <h3>Signatures: ML-DSA vs. ECDSA</h3>
+  <h3>Signatures (ML-DSA vs. ECDSA)</h3>
   <div class="stats" style="margin-top:0.1in">
-    <div class="stat good"><div class="v">{verify_ratio:.1f}×</div><div class="l">verify time: same speed as today</div></div>
-    <div class="stat cost"><div class="v">{sign_x:.1f}×</div><div class="l">slower to sign</div></div>
-    <div class="stat cost"><div class="v">{size_x:.0f}×</div><div class="l">larger signature</div><div class="s">{sig['size'][0]:.0f} B → {sig['size'][1]:,.0f} B</div></div>
+    <div class="stat good"><div class="v">{verify_ratio:.1f}×</div><div class="l">verification time (about the same)</div></div>
+    <div class="stat cost"><div class="v">{sign_x:.1f}×</div><div class="l">slower signing</div></div>
+    <div class="stat cost"><div class="v">{size_x:.0f}×</div><div class="l">larger signatures</div><div class="s">{sig['size'][0]:.0f} B → {sig['size'][1]:,.0f} B</div></div>
   </div>
-  <p class="small" style="margin-top:0.14in"><b>Checking a signature costs about the same as today.</b> The real price is size: every signature, certificate, and update gets bigger.</p>
+  <p class="small" style="margin-top:0.14in">Verifying an ML-DSA signature costs about the same as ECDSA. The main cost is size, which affects certificates, storage, and bandwidth.</p>
 </section>
 
 <section>
   <h2>Migration Roadmap</h2>
   <div class="road">
-    <div class="phase"><div class="num">0</div><div><div class="pt">Inventory &amp; baseline</div><div class="pd">Map where RSA/ECC are used and record today’s metrics.</div><div class="gate">Gate: baseline telemetry is complete and reproducible</div></div></div>
-    <div class="phase"><div class="num">1</div><div><div class="pt">Crypto-agility refactor</div><div class="pd">Make algorithms swappable at the interface.</div><div class="gate">Gate: swaps need no application rewrites</div></div></div>
-    <div class="phase hot"><div class="num">2</div><div><div class="pt">Targeted hybrid deployment</div><div class="pd">Hybrid first on long-lived, high-value channels.</div><div class="gate">Gate: error rates and latency stay in budget</div></div></div>
-    <div class="phase hot"><div class="num">3</div><div><div class="pt">Post-quantum preferred</div><div class="pd">Default to PQ where support is stable, keep fallback.</div><div class="gate">Gate: stable in production, interoperable</div></div></div>
-    <div class="phase"><div class="num">4</div><div><div class="pt">Governance &amp; re-testing</div><div class="pd">Enforce crypto policy in CI/CD; re-benchmark over time.</div></div></div>
+    <div class="phase"><div class="num">0</div><div><div class="pt">Inventory and baseline</div><div class="pd">Map where RSA and ECC are used and record current metrics.</div><div class="gate">Gate: baseline data is complete and reproducible</div></div></div>
+    <div class="phase"><div class="num">1</div><div><div class="pt">Crypto-agility refactor</div><div class="pd">Make algorithms swappable at the interface level.</div><div class="gate">Gate: swaps need no application rewrites</div></div></div>
+    <div class="phase hot"><div class="num">2</div><div><div class="pt">Targeted hybrid deployment</div><div class="pd">Use hybrid first on long-lived, high-value channels.</div><div class="gate">Gate: error rates and latency stay in budget</div></div></div>
+    <div class="phase hot"><div class="num">3</div><div><div class="pt">Post-quantum preferred</div><div class="pd">Default to post-quantum where support is stable, with a fallback.</div><div class="gate">Gate: stable and interoperable in production</div></div></div>
+    <div class="phase"><div class="num">4</div><div><div class="pt">Governance and re-testing</div><div class="pd">Enforce crypto policy in CI/CD and re-benchmark over time.</div></div></div>
   </div>
 </section>
 
 <section class="take">
-  <h3>The Takeaway</h3>
-  <p>The quantum transition should be treated as a systems engineering program, not only a cryptographic substitution task.</p>
+  <h3>Conclusion</h3>
+  <p>Post-quantum algorithms are already fast enough for real systems. The main costs are larger messages and the engineering work of migrating safely, so the transition should be treated as a systems engineering program, not only a cryptographic substitution task.</p>
 </section>
 """
 
@@ -581,6 +579,8 @@ addEventListener("load", () => {{
   let fm = 0;
   f.querySelectorAll("li, p").forEach(e => fm = Math.max(fm, e.getBoundingClientRect().bottom));
   r.push("footer=" + ((f.getBoundingClientRect().bottom - fm) / 96).toFixed(2));
+  const ol = f.querySelector("ol");
+  r.push("refs_spill=" + (ol.scrollWidth - ol.clientWidth));
   const h = document.querySelector(".titles");
   r.push("titles_w=" + (h.scrollWidth - h.clientWidth));
   document.body.setAttribute("data-fit", r.join(" "));
